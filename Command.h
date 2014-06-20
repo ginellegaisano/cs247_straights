@@ -14,5 +14,6 @@ struct Command{
 };
 
 std::istream &operator>>(std::istream &, Command &);
+std::ostream &operator<<(std::ostream &, Command &);
 
 #endif

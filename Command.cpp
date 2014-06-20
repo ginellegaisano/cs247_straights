@@ -27,3 +27,23 @@ istream &operator>>(istream &in, Command &c){
 	
 	return in;
 }
+
+ostream &operator<<(ostream &sout, Command &c){
+	
+	if (c.type == PLAY) {
+		sout <<"plays";
+	} else if (c.type == DISCARD) {
+		sout <<"discards";
+	} else if (c.type == DECK) {
+		sout <<"deck";
+	} else if (c.type == QUIT) {
+		sout <<"quit";
+	} else if (c.type == RAGEQUIT) {
+		sout <<"ragequit";
+	}
+	else {
+		sout <<"";
+	}
+
+	return sout;
+}
