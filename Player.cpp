@@ -17,7 +17,6 @@ Player::Player(bool isHuman, int playerNumber) {
 	else
 		status_ = new Computer();
 
-	hand_ = new std::vector<Card*>();
 	discardPile_ = new std::vector<Card*>();
 	score_ = 0;
 	playerNumber_ = playerNumber;

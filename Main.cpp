@@ -152,7 +152,6 @@ int main (int argc, char* argv[]) {
 					delete table;
 					for (int i = 0; i < 52; i++) delete cards_[i];
 						return 0;
-
 				}
 				else if (command.type != RAGEQUIT || command.type != DECK)					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
 

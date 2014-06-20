@@ -10,7 +10,7 @@
 class Computer : public Status {
 	public:
 		Computer();
-		~Computer();
+		virtual ~Computer();
 		Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&, int playerNum); //play, discard
 	private:
 		Computer(Computer&);

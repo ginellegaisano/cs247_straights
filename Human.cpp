@@ -9,7 +9,9 @@
 #include "Global.h"
 
 Human::Human() {}
-Human::~Human() {}
+Human::~Human() {
+	std::cout << "deleting human\n";
+}
 
 Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum) { //print hand, play, discard, quit
 	std::vector<Card*> legalCards;
@@ -32,6 +34,7 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 			std::cin >> command;
 			int index = isInHand(command.card, hand);
 			// std::cout << index << "\n";
+
 
 			switch (command.type) {
 				case PLAY:

@@ -4,7 +4,9 @@
 #include <set>
 #include <iostream>
 
-Status::~Status() {}
+Status::~Status() {
+	std::cout << "delete status\n";
+}
 Status::Status() {}
 
 int Status::isInHand(Card card, std::vector<Card*>& hand) {
