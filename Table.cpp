@@ -7,7 +7,9 @@
 Table::Table(){
 	legalCards_.insert("7S");
 }
-Table::~Table(){}
+Table::~Table(){
+	std::cout<< "deleting table\n";
+}
 
 bool Table::isLegalCard(Card card) {
 	// std::cout << "Legal cards: " << legalCards_.size() << "\n";
@@ -104,10 +106,17 @@ void Table::updateLegalCards(Card card) { //only called if card is allowed
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 		legalCards_.insert(card.getCardName(Rank(card.getRank() + 1), card.getSuit()));
 	}
+	else if (rank == (13-1) || rank == (1-1)) {} //king and ace
 	else if (rank < (7-1)) {
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 	}
 	else {
 		legalCards_.insert(card.getCardName(Rank(card.getRank() + 1), card.getSuit()));
 	}
+}
+
+void Table::clearTable() {
+	legalCards_.clear();
+	legalCards_.insert("7S");
+	for (int i = 0; i < 4; i++) stacks_[i].clear();
 }

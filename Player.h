@@ -16,6 +16,7 @@ class Player {
 		int getScore();
 		void calculateScore();
 		void printDiscards();
+		void clearCards();
 	private:
 		Player& operator= (Player&);
 		Player(Player&);
@@ -34,5 +35,4 @@ class Player {
 // virtual bool play(Card&) = 0;
 		// virtual bool discard(Card&) = 0;
 		// int getScore();
-		// void endGame(); //cleans up hand, discard pile, and calculates score
 		// virtual void makeMove(Command) = 0;

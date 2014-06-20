@@ -14,6 +14,7 @@ class Table {
 		std::set<std::string> getLegalCards(); //so that can be used to print
 		void addToStacks(Card);
 		bool isLegalCard(Card);
+		void clearTable();
 	private:
 		void updateLegalCards(Card); //called when we add to a stack
 		std::vector<int> stacks_[4];

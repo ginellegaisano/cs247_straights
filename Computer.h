@@ -6,6 +6,7 @@
 #include "Table.h"
 #include <vector>
 #include "Command.h"
+
 //entity ADT
 class Computer : public Status {
 	public:

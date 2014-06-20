@@ -103,6 +103,19 @@ bool deal(int playerNum, Player &player){
 	return firstPlayer;
 }
 
+void endRound(Table &table){ //cleans up hand, discard pile, and calculates score
+	table.clearTable();
+
+}
+
+void quit (Player *players[4], Table* table) {
+	for (int i = 0; i < 4; i++) delete players[i];
+	
+	delete table;
+
+	for (int i = 0; i < 52; i++) delete cards_[i];
+	
+}
 //plays rounds
 // void playGame(vector<Player*> players) {}
 
@@ -113,7 +126,7 @@ bool deal(int playerNum, Player &player){
 //at the beginning of every round, shuffle cards
 int main (int argc, char* argv[]) {
 	long num;
-	 Player* players[4];
+	Player* players[4];
 	if (argv[1] != NULL) num = atoi(argv[1]);
 	else num = 0;
 	srand48(num);
@@ -132,10 +145,10 @@ int main (int argc, char* argv[]) {
 		}
 	}
 	
-	bool hasWinner = false;
+	bool gameDone = false;
 	Table *table = new Table();
 
-	while (!hasWinner) {
+	while (!gameDone) {
 		shuffle(); //shuffle beginning of round
 			printDeck();
 
@@ -148,10 +161,8 @@ int main (int argc, char* argv[]) {
 				Command command = players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
 				
 				if (command.type == QUIT) {
-					for (int i = 0; i < 4; i++) delete players[i];
-					delete table;
-					for (int i = 0; i < 52; i++) delete cards_[i];
-						return 0;
+					quit(players, table);
+					return 0;
 				}
 				else if (command.type != RAGEQUIT || command.type != DECK)					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
 
@@ -162,14 +173,24 @@ int main (int argc, char* argv[]) {
 		for (int i = 0; i < 4; i++)  {
 			int oldScore = players[i]->getScore();
 			cout << "Player "<< i+1 << " discards: ";
-			players[i]->printDiscards();
+			players[i]->printDiscards(); 
 			cout << "Player "<< i+1 << " score: " << oldScore << " + ";
-			players[i]->calculateScore();
-			cout << players[i]->getScore() - oldScore << " = " << players[i]->getScore();
+			players[i]->calculateScore(); //calculates new score
+			cout << players[i]->getScore() - oldScore << " = " << players[i]->getScore() << endl;
+			if (players[i]->getScore() >= 80){
+				gameDone = true;
+				cout << "Player " << i << " wins!\n";
+			}
+				players[i]->clearCards();
 
 		}
+		table->clearTable();
 
+		cin.ignore();
 	}
+
+
+	quit(players, table);
 
 	
 

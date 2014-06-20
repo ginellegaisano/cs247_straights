@@ -11,6 +11,11 @@ void Player::printDiscards() {
 	printCards(*discardPile_);
 }
 
+void Player::clearCards() {
+	discardPile_->clear();
+	delete hand_;
+}
+
 Player::Player(bool isHuman, int playerNumber) {
 	if (isHuman)
 		status_ = new Human();
@@ -23,6 +28,7 @@ Player::Player(bool isHuman, int playerNumber) {
 }
 
 Player::~Player() {
+	std::cout<<"deleted the hand.\n";
 	delete hand_;
 	delete discardPile_;
 	delete status_;
