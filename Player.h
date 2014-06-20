@@ -12,7 +12,7 @@ class Player {
 		Player(bool, int); //
 		virtual ~Player();
 		void setHand(std::vector<Card*>&);
-		bool makeMove(Table&);
+		Command makeMove(Table&);
 		int getScore();
 		void calculateScore();
 		void printDiscards();

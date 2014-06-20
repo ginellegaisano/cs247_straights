@@ -11,7 +11,7 @@
 Human::Human() {}
 Human::~Human() {}
 
-bool Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum) { //print hand, play, discard, quit
+Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum) { //print hand, play, discard, quit
 	std::vector<Card*> legalCards;
 	bool proceed = false;
 	for (int i = 0; i < hand.size(); i++) {
@@ -24,12 +24,14 @@ bool Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>&
 	printCards(hand); 
 	std::cout << "Legal plays: ";
 	printCards(legalCards);
+	Command command;
+
 	while (!proceed) {
 		try {
 			std::cout << ">";
-			Command command;
 			std::cin >> command;
 			int index = isInHand(command.card, hand);
+			if (index == -1 ) throw 0;
 			// std::cout << index << "\n";
 			std::cin.ignore();
 
@@ -38,12 +40,10 @@ bool Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>&
 			switch (command.type) {
 				case PLAY:
 					play(table, *hand[index], hand);
-					std::cout << "Player " << playerNum << " plays " << command.card << ".\n";
 					proceed = true;
 					break;
 				case DISCARD:
 					discard(table, *hand[index], hand, discardPile);
-					std::cout << "Player " << playerNum << " discards " << command.card << ".\n";
 					proceed = true;
 
 					break;
@@ -51,7 +51,7 @@ bool Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>&
 					printDeck();
 					break;
 				case QUIT:
-					return false;
+					return command;
 					break;
 				case RAGEQUIT:
 					proceed = true;
@@ -63,5 +63,5 @@ bool Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>&
 			std::cout<<"This is not a legal play.\n";
 		}
 	}
-	return true;
+	return command;
 }

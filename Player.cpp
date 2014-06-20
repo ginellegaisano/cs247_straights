@@ -42,7 +42,7 @@ void Player::setHand(std::vector<Card*>& hand){
 	hand_ = &hand;
 }
 
-bool Player::makeMove(Table& table) {
+Command Player::makeMove(Table& table) {
 	return status_->makeMove(table, *hand_, *discardPile_, playerNumber_);
 	
 }

@@ -145,7 +145,11 @@ int main (int argc, char* argv[]) {
 		}
 		int cards = 0;
 			while (cards < 52) {
-				players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
+				Command command = players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
+				
+				if (command.type != QUIT || command.type != RAGEQUIT || command.type != DECK)
+					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
+
 				cards++;
 				playerTurn = (playerTurn+1)%4;
 			}
