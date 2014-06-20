@@ -4,18 +4,20 @@
 #include <vector>
 #include <iostream>
 
-Table::Table(){}
+Table::Table(){
+	legalCards_.insert("7S");
+}
 Table::~Table(){}
 
 bool Table::isLegalCard(Card card) {
 	// std::cout << "Legal cards: " << legalCards_.size() << "\n";
-	if (legalCards_.size() == 0) {
-		if (card.getCardName(card.getRank(), card.getSuit()) != "7S") {
-			return false;
-		}
-		return true;
-	}
-	else {
+	// if (legalCards_.size() == 0) {
+	// 	if (card.getCardName(card.getRank(), card.getSuit()) != "7S") {
+	// 		return false;
+	// 	}
+	// 	return true;
+	// }
+	// else {
 		//need to check if card is in legalCards, right?
 		if (legalCards_.find(card.getCardName(card.getRank(), card.getSuit())) != legalCards_.end()) {
 			return true;
@@ -23,7 +25,7 @@ bool Table::isLegalCard(Card card) {
 		else {
 			return false;
 		}
-	}
+	// }
 }
 
 void Table::printStacks() {
@@ -74,7 +76,7 @@ void Table::addToStacks(Card card) {
 	if (!isLegalCard(card)) return;
 	int suit = card.getSuit();
 	if (stacks_[suit].size() > 0 && card.getRank() < stacks_[suit][0]) {
-		std::cout << "insert";
+		// std::cout << "insert";
 		stacks_[suit].insert(stacks_[suit].begin(), card.getRank());
 	}
 	else {
@@ -89,12 +91,14 @@ void Table::updateLegalCards(Card card) { //only called if card is allowed
 	std::string cardName = card.getCardName(card.getRank(), card.getSuit());
 
 	legalCards_.erase(cardName);
-	if (legalCards_.size() == 0) {
+	// std::cout << (legalCards_.find("7S") == legalCards_.end()) << std::endl;
+	if (legalCards_.find("7S") == legalCards_.begin()) {
 		legalCards_.insert("7C");
 		legalCards_.insert("7D");
 		legalCards_.insert("7H");
 		legalCards_.insert("6S");
 		legalCards_.insert("8S");
+		legalCards_.erase("7S");
 	}
 	else if (rank == (7-1)) { //index of 7 is 1 less
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
