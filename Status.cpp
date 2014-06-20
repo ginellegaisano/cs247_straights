@@ -15,7 +15,6 @@ int Status::isInHand(Card card, std::vector<Card*>& hand) {
 		// if (card.getSuit() == hand[i]->getSuit() && card.getRank() == hand[i]->getRank() ) return i;
 		if (card == *(hand[i])) return i;
 	}
-	std::cout << "-------- " << hand.size() << "\n";
 
 	return -1;
 }

@@ -31,21 +31,20 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 			std::cout << ">";
 			std::cin >> command;
 			int index = isInHand(command.card, hand);
-			if (index == -1 ) throw 0;
 			// std::cout << index << "\n";
-			std::cin.ignore();
-
-	// enum Type { PLAY, DISCARD, DECK, QUIT, RAGEQUIT, BAD_COMMAND };
 
 			switch (command.type) {
 				case PLAY:
+					if (index == -1 ) throw 0;
+
 					play(table, *hand[index], hand);
 					proceed = true;
 					break;
 				case DISCARD:
+					if (index == -1 ) throw 0;
+
 					discard(table, *hand[index], hand, discardPile);
 					proceed = true;
-
 					break;
 				case DECK:
 					printDeck();
@@ -55,7 +54,6 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 					break;
 				case RAGEQUIT:
 					proceed = true;
-
 					break;
 			}
 		}

@@ -9,7 +9,7 @@
 class Status {
 	public:
 		Status();
-		~Status();
+		virtual ~Status();
 		virtual Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&, int playerNum) = 0;
 	protected:
 		void play(Table&, Card&, std::vector<Card*>&);
