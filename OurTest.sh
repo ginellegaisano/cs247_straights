@@ -59,6 +59,12 @@ cat tests/playNonExistant.txt | ~/Downloads/./straights > tests/CP2
 diff tests/CP1 tests/CP2
 echo "[Test playNonExistant finished]"
 
+echo "[Test discardNonExistant]"
+cat tests/discardNonExistant.txt | ./straights > tests/CP1
+cat tests/discardNonExistant.txt | ~/Downloads/./straights > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test discardNonExistant finished]"
+
 echo "[Test spaces]"
 cat tests/spaces.txt | ./straights  > tests/CP1
 cat tests/spaces.txt | ~/Downloads/./straights  > tests/CP2
@@ -76,5 +82,11 @@ cat tests/spaces.txt | ./straights  32769> tests/CP1
 cat tests/spaces.txt | ~/Downloads/./straights  32769> tests/CP2
 diff tests/CP1 tests/CP2
 echo "[Test spaces32769 finished]"
+
+echo "[Test hccc15]"
+cat tests/hccc.txt | ./straights  15> tests/CP1
+cat tests/hccc.txt | ~/Downloads/./straights  15> tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test hccc15 finished]"
 
 echo "[Tests done]"
