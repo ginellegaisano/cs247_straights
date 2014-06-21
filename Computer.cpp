@@ -30,6 +30,4 @@ Command Computer::makeMove(Table& table, std::vector<Card*>& hand, std::vector<C
 }
 
 Computer::Computer() {}
-Computer::~Computer() {
-	std::cout << "deleting computer\n";
-}
+Computer::~Computer() {}

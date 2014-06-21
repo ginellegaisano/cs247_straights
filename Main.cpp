@@ -89,16 +89,16 @@ for (int i = 0; i < 4; i++){
 }
 
 bool deal(int playerNum, Player &player){
-	vector<Card*>* hand = new vector<Card*>();
+	vector<Card*> hand;
 	bool firstPlayer = false;
 	for (int j = 0; j < 13; j++){
 		Card* curCard = cards_[playerNum*13+j];
 		string cardName = curCard->getCardName(curCard->getRank(), curCard->getSuit()); 
-		(*hand).push_back(curCard);
+		(hand).push_back(curCard);
 		if(cardName == "7S") firstPlayer = true;
 	}
 
-	player.setHand(*hand);
+	player.setHand(hand);
 
 	return firstPlayer;
 }
@@ -164,7 +164,14 @@ int main (int argc, char* argv[]) {
 					quit(players, table);
 					return 0;
 				}
-				else if (command.type != RAGEQUIT || command.type != DECK)					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
+				else if (command.type == RAGEQUIT) {
+					players[playerTurn]->rageQuit();
+					std::cout << "Player " << playerTurn+1 << " " << command << ". A computer will now take over.\n";
+
+					players[playerTurn]->makeMove(*table);
+				}
+				else if (command.type != DECK)	
+					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
 
 				cards++;
 				playerTurn = (playerTurn+1)%4;

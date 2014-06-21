@@ -11,12 +11,13 @@ class Player {
 	public:
 		Player(bool, int); //
 		virtual ~Player();
-		void setHand(std::vector<Card*>&);
+		void setHand(std::vector<Card*>);
 		Command makeMove(Table&);
 		int getScore();
 		void calculateScore();
 		void printDiscards();
 		void clearCards();
+		void rageQuit();
 	private:
 		Player& operator= (Player&);
 		Player(Player&);

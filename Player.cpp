@@ -13,7 +13,6 @@ void Player::printDiscards() {
 
 void Player::clearCards() {
 	discardPile_->clear();
-	delete hand_;
 }
 
 Player::Player(bool isHuman, int playerNumber) {
@@ -22,6 +21,7 @@ Player::Player(bool isHuman, int playerNumber) {
 	else
 		status_ = new Computer();
 
+	hand_ = new std::vector<Card*>();
 	discardPile_ = new std::vector<Card*>();
 	score_ = 0;
 	playerNumber_ = playerNumber;
@@ -43,11 +43,18 @@ void Player::calculateScore() {
 		score_ += 1 + (*discardPile_)[i]->getRank();
 }
 
-void Player::setHand(std::vector<Card*>& hand){
-	hand_ = &hand;
+void Player::setHand(std::vector<Card*> hand){
+	(*hand_).clear();
+
+	for (int i = 0; i < 13; i++)
+		(*hand_).push_back(hand[i]);
 }
 
 Command Player::makeMove(Table& table) {
 	return status_->makeMove(table, *hand_, *discardPile_, playerNumber_);
-	
+}
+
+void Player::rageQuit() {
+	delete status_;
+	status_ = new Computer();
 }
