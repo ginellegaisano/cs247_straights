@@ -10,7 +10,7 @@ class Status {
 	public:
 		Status();
 		virtual ~Status();
-		virtual Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&, int playerNum) = 0;
+		virtual Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&) = 0;
 	protected:
 		void play(Table&, Card&, std::vector<Card*>&);
 		void discard(Table&, Card&, std::vector<Card*>&, std::vector<Card*>&);

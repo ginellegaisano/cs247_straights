@@ -13,7 +13,7 @@ class Human : public Status {
 	public:
 		Human();
 		virtual ~Human();
-		Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&, int playerNum); //print hand, play, discard, quit
+		Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&); //print hand, play, discard, quit
 	private:
 		Human(Human&);
 		Human& operator= (Human&);

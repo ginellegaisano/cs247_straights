@@ -50,7 +50,7 @@ void Player::setHand(std::vector<Card*> hand){
 }
 
 Command Player::makeMove(Table& table) {
-	return status_->makeMove(table, *hand_, *discardPile_, playerNumber_);
+	return status_->makeMove(table, *hand_, *discardPile_);
 }
 
 void Player::rageQuit() {

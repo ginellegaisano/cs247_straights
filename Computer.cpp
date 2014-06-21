@@ -8,7 +8,7 @@
 #include <set>
 #include "Global.h"
 
-Command Computer::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum){
+Command Computer::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile){
 	Command command;
 	for (int i=0; i < hand.size(); i++){
 		Card *card = hand[i];

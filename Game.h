@@ -13,13 +13,13 @@
 class Game {
 	public: 
 		Game();
+		void playGame();
+	private:
 		void shuffle();
 		void initializeDeck();
 		bool deal(int);
 		void endRound();
 		void quit(Player *players[4], Table* table);
-		void playGame();
-	private:
 		Player *players[4];
 		Table *table;
 

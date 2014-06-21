@@ -11,7 +11,7 @@
 Human::Human() {}
 Human::~Human() {}
 
-Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum) { //print hand, play, discard, quit
+Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile) { //print hand, play, discard, quit
 	std::vector<Card*> legalCards;
 	bool proceed = false;
 	for (int i = 0; i < hand.size(); i++) {
