@@ -3,4 +3,5 @@ h
 h
 h
 discard KD
+quit
 

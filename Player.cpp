@@ -28,7 +28,6 @@ Player::Player(bool isHuman, int playerNumber) {
 }
 
 Player::~Player() {
-	std::cout<<"deleted the hand.\n";
 	delete hand_;
 	delete discardPile_;
 	delete status_;

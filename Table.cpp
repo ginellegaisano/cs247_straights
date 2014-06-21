@@ -7,9 +7,7 @@
 Table::Table(){
 	legalCards_.insert("7S");
 }
-Table::~Table(){
-	std::cout<< "deleting table\n";
-}
+Table::~Table(){}
 
 bool Table::isLegalCard(Card card) {
 	// std::cout << "Legal cards: " << legalCards_.size() << "\n";
@@ -31,6 +29,7 @@ bool Table::isLegalCard(Card card) {
 }
 
 void Table::printStacks() {
+	std::cout << "Cards on the table: \n";
 	for (int i = 0; i < SUIT_COUNT; i++) {
 		switch(i) {
 			case 0:
@@ -78,7 +77,6 @@ void Table::addToStacks(Card card) {
 	if (!isLegalCard(card)) return;
 	int suit = card.getSuit();
 	if (stacks_[suit].size() > 0 && card.getRank() < stacks_[suit][0]) {
-		// std::cout << "insert";
 		stacks_[suit].insert(stacks_[suit].begin(), card.getRank());
 	}
 	else {

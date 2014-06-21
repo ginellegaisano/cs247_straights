@@ -1,0 +1,17 @@
+h
+H
+H
+C
+play 7S
+play 7H
+play 7D
+play 7C
+play 8S
+play 8H
+play 8D
+play 8C
+ragequit
+discard KD
+discard 8D
+play 6H
+quit

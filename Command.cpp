@@ -39,7 +39,7 @@ ostream &operator<<(ostream &sout, Command &c){
 	} else if (c.type == QUIT) {
 		sout <<"quit";
 	} else if (c.type == RAGEQUIT) {
-		sout <<"ragequit";
+		sout <<"ragequits";
 	}
 	else {
 		sout <<"";

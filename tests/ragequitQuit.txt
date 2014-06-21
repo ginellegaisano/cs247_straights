@@ -1,0 +1,26 @@
+c
+h
+h
+c
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+play 8S
+ragequit
+quit

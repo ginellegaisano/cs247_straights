@@ -9,9 +9,7 @@
 #include "Global.h"
 
 Human::Human() {}
-Human::~Human() {
-	std::cout << "deleting human\n";
-}
+Human::~Human() {}
 
 Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum) { //print hand, play, discard, quit
 	std::vector<Card*> legalCards;
@@ -33,8 +31,6 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 			std::cout << ">";
 			std::cin >> command;
 			int index = isInHand(command.card, hand);
-			// std::cout << index << "\n";
-
 
 			switch (command.type) {
 				case PLAY:
@@ -44,7 +40,7 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 					proceed = true;
 					break;
 				case DISCARD:
-					if (index == -1 ) throw 0;
+					if (index == -1 ) throw 2;
 
 					discard(table, *hand[index], hand, discardPile);
 					proceed = true;
@@ -60,8 +56,11 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 					break;
 			}
 		}
-		catch(int) {
-			std::cout<<"This is not a legal play.\n";
+		catch(int e) {
+			if (e == 2)
+				std::cout<<"You have a legal play. You may not discard.\n";
+			else
+				std::cout<<"This is not a legal play.\n";
 		}
 	}
 	return command;

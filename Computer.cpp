@@ -10,9 +10,6 @@
 
 Command Computer::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile, int playerNum){
 	Command command;
-	std::cout << "Hand: ";
-	printCards(hand);
-	table.printStacks();
 	for (int i=0; i < hand.size(); i++){
 		Card *card = hand[i];
 		if (table.isLegalCard(*card)){
@@ -22,9 +19,10 @@ Command Computer::makeMove(Table& table, std::vector<Card*>& hand, std::vector<C
 			return command;
 		}
 	}
-	discard (table, *hand[0], hand, discardPile);
 	command.type = DISCARD;
-	command.card = *hand[0];
+	command.card = *(hand[0]);
+	discard (table, *(hand[0]), hand, discardPile);
+
 	return command;
 
 }

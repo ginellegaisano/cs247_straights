@@ -133,11 +133,11 @@ int main (int argc, char* argv[]) {
 	initializeDeck();
 
 	for (int i = 1; i <= 4; i++) {
-		string input;
+		char input;
 		cout << "Is player " << i << " a human(h) or a computer(c)?\n>";
 		cin >> input;
-		assert(!cin.fail() && (input == "c" || input == "C" || input == "H" || input == "h"));
-		if (input == "H" || input == "h") {
+		assert(!cin.fail() && (input == 'c' || input == 'C' || input == 'H' || input == 'h'));
+		if (input == 'H' || input == 'h') {
 			players[i-1] = new Player(true, i);
 		} 
 		else {
@@ -147,30 +147,34 @@ int main (int argc, char* argv[]) {
 	
 	bool gameDone = false;
 	Table *table = new Table();
+	int lowestScore = 234; //the highest score is 79 + 4*13 + 4*12 + 4*11 + 10 = 233
+
 
 	while (!gameDone) {
+		lowestScore = 234;
 		shuffle(); //shuffle beginning of round
-			printDeck();
 
 		int playerTurn;
 		for (int i = 0; i < 4; i++) {
 			if (deal(i, *players[i])) playerTurn = i;
 		}
 		int cards = 0;
+		cout << "A new round begins. It's player " << playerTurn+1 << "'s turn to play.\n";
 			while (cards < 52) {
 				Command command = players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
 				
-				if (command.type == QUIT) {
-					quit(players, table);
-					return 0;
-				}
-				else if (command.type == RAGEQUIT) {
+				if (command.type == RAGEQUIT) {
 					players[playerTurn]->rageQuit();
 					std::cout << "Player " << playerTurn+1 << " " << command << ". A computer will now take over.\n";
 
-					players[playerTurn]->makeMove(*table);
+					command = players[playerTurn]->makeMove(*table);
 				}
-				else if (command.type != DECK)	
+				else if (command.type == QUIT) {
+					quit(players, table);
+					return 0;
+				}
+				
+				if (command.type != DECK)	
 					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
 
 				cards++;
@@ -179,23 +183,31 @@ int main (int argc, char* argv[]) {
 
 		for (int i = 0; i < 4; i++)  {
 			int oldScore = players[i]->getScore();
-			cout << "Player "<< i+1 << " discards: ";
+			cout << "Player "<< i+1 << "'s discards: ";
 			players[i]->printDiscards(); 
-			cout << "Player "<< i+1 << " score: " << oldScore << " + ";
+			cout << "Player "<< i+1 << "'s score: " << oldScore << " + ";
 			players[i]->calculateScore(); //calculates new score
 			cout << players[i]->getScore() - oldScore << " = " << players[i]->getScore() << endl;
+			
+			//always tracks for lowest score
+			if (lowestScore > players[i]->getScore()) {
+				lowestScore = players[i]->getScore();
+			}
+			
 			if (players[i]->getScore() >= 80){
 				gameDone = true;
-				cout << "Player " << i << " wins!\n";
-			}
+		}
 				players[i]->clearCards();
 
 		}
+
 		table->clearTable();
 
-		cin.ignore();
+		// cin.ignore();
 	}
-
+	for (int i = 0; i < 4; i++)  
+	if (lowestScore == players[i]->getScore()) 
+		cout << "Player " << i+1 << " wins!\n";
 
 	quit(players, table);
 
