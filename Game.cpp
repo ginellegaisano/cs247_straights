@@ -8,6 +8,14 @@ Game::Game() {
 	table = new Table();
 }
 
+Game::~Game() {
+	for (int i = 0; i < 4; i++) delete players[i];
+	
+	delete table;
+
+	for (int i = 0; i < 52; i++) delete cards_[i];
+}
+
 void Game::shuffle(){
 	int n = CARD_COUNT;
 
@@ -84,6 +92,7 @@ for (int i = 0; i < 4; i++){
 	}
 }
 
+//deals to hand to player and returns true if player has 7 of spades
 bool Game::deal(int playerNum){
 	vector<Card*> hand;
 	bool firstPlayer = false;
@@ -99,46 +108,31 @@ bool Game::deal(int playerNum){
 	return firstPlayer;
 }
 
-void Game::endRound(){ //cleans up hand, discard pile, and calculates score
+//cleans up table
+void Game::endRound(){ 
 	table->clearTable();
 
 }
 
-void Game::quit (Player *players[4], Table* table) {
-	for (int i = 0; i < 4; i++) delete players[i];
-	
-	delete table;
-
-	for (int i = 0; i < 52; i++) delete cards_[i];
-	
-}
-//plays rounds
-// void Game::playGame(vector<Player*> players) {}
-
-// //returns true if a player has a score of > 80
-// bool playRound(vector<Player*> players) {} 
-
-
-//at the beginning of every round, shuffle cards
 void Game::playGame () {
 
-	initializeDeck();
+	initializeDeck(); 
 
+	//asks for type of player (human of computers)
 	for (int i = 1; i <= 4; i++) {
 		char input;
 		cout << "Is player " << i << " a human(h) or a computer(c)?\n>";
 		cin >> input;
-		// assert(!cin.fail() && (input == 'c' || input == 'C' || input == 'H' || input == 'h'));
 		assert(!cin.fail() && (input == 'c' || input == 'h'));
 		if (input == 'H' || input == 'h') {
-			players[i-1] = new Player(true, i);
+			players[i-1] = new Player(true);
 		} 
 		else {
-			players[i-1] = new Player(false, i);
+			players[i-1] = new Player(false);
 		}
 	}
 	
-	bool gameDone = false;
+	bool gameDone = false; //flag for unfinished game
 	int lowestScore = 234; //the highest score is 79 + 4*13 + 4*12 + 4*11 + 10 = 233
 
 
@@ -146,39 +140,44 @@ void Game::playGame () {
 		lowestScore = 234;
 		shuffle(); //shuffle beginning of round
 
-		int playerTurn;
+		int playerTurn; 
 		for (int i = 0; i < 4; i++) {
-			if (deal(i)) playerTurn = i;
+			if (deal(i)) playerTurn = i; //sets starting player
 		}
 		int cards = 0;
+
 		cout << "A new round begins. It's player " << playerTurn+1 << "'s turn to play.\n";
-			while (cards < 52) {
-				Command command = players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
-				
-				if (command.type == RAGEQUIT) {
-					players[playerTurn]->rageQuit();
-					std::cout << "Player " << playerTurn+1 << " " << command << ". A computer will now take over.\n";
+		
+		//ends round after 52 cards have been played/discarded
+		while (cards < 52) {
+			Command command = players[playerTurn]->makeMove(*table); //can manipulate table if pass pointer reference
+			
+			if (command.type == RAGEQUIT) {
+				players[playerTurn]->rageQuit();
+				cout << "Player " << playerTurn+1 << " " << command << ". A computer will now take over.\n";
 
-					command = players[playerTurn]->makeMove(*table);
-				}
-				else if (command.type == QUIT) {
-					quit(players, table);
-					return ;
-				}
-				
-				if (command.type != DECK)	
-					std::cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
-
-				cards++;
-				playerTurn = (playerTurn+1)%4;
+				command = players[playerTurn]->makeMove(*table);
 			}
+			else if (command.type == QUIT) {
+				return ;
+			}
+			
+			if (command.type != DECK)	
+				cout << "Player " << playerTurn+1 << " " << command << " " << command.card << ".\n";
 
+			cards++;
+			playerTurn = (playerTurn+1)%4;
+		}
+
+		//prints discards and score
 		for (int i = 0; i < 4; i++)  {
 			int oldScore = players[i]->getScore();
 			cout << "Player "<< i+1 << "'s discards: ";
 			players[i]->printDiscards(); 
 			cout << "Player "<< i+1 << "'s score: " << oldScore << " + ";
 			players[i]->calculateScore(); //calculates new score
+
+			//prints difference (score gained) and new score
 			cout << players[i]->getScore() - oldScore << " = " << players[i]->getScore() << endl;
 			
 			//always tracks for lowest score
@@ -188,24 +187,19 @@ void Game::playGame () {
 			
 			if (players[i]->getScore() >= 80){
 				gameDone = true;
-		}
-				players[i]->clearCards();
+			}
+			players[i]->clearCards();
 
 		}
 
 		table->clearTable();
 
-		// cin.ignore();
 	}
+	//determines winners by comparing to lowest score
 	for (int i = 0; i < 4; i++)  
 	if (lowestScore == players[i]->getScore()) 
 		cout << "Player " << i+1 << " wins!\n";
 
-	quit(players, table);
-
-	
-
-	//vector<Card*> playedCards_[4]; //clubs, diamonds, hearts, spade stacks played
-
+	return;
 }
 

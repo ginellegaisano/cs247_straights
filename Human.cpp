@@ -14,11 +14,14 @@ Human::~Human() {}
 Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card*>& discardPile) { //print hand, play, discard, quit
 	std::vector<Card*> legalCards;
 	bool proceed = false;
+
+	//gets all all legal cards in hand
 	for (int i = 0; i < hand.size(); i++) {
 		if (table.isLegalCard(*hand[i])) {
 			legalCards.push_back(hand[i]);
 		}
 	}
+	//print out cards played 
 	table.printStacks();
 	std::cout << "Your hand: ";
 	printCards(hand); 
@@ -58,7 +61,7 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 			}
 		}
 		catch(int e) {
-			if (e == 2)
+			if (e == 2) //only thrown for discard
 				std::cout<<"You have a legal play. You may not discard.\n";
 			else
 				std::cout<<"This is not a legal play.\n";

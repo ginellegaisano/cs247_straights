@@ -9,7 +9,7 @@
 //entity ADT
 class Player {
 	public:
-		Player(bool, int); //
+		Player(bool); //
 		virtual ~Player();
 		void setHand(std::vector<Card*>);
 		Command makeMove(Table&);
@@ -25,7 +25,6 @@ class Player {
 		std::vector<Card*>* discardPile_;
 		int score_;
 		Status* status_;
-		int playerNumber_;
 
 };
 

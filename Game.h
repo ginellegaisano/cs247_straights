@@ -13,6 +13,7 @@
 class Game {
 	public: 
 		Game();
+		~Game();
 		void playGame();
 	private:
 		void shuffle();

@@ -11,11 +11,12 @@ void Player::printDiscards() {
 	printCards(*discardPile_);
 }
 
+//clears discard pile
 void Player::clearCards() {
 	discardPile_->clear();
 }
 
-Player::Player(bool isHuman, int playerNumber) {
+Player::Player(bool isHuman) {
 	if (isHuman)
 		status_ = new Human();
 	else
@@ -24,7 +25,6 @@ Player::Player(bool isHuman, int playerNumber) {
 	hand_ = new std::vector<Card*>();
 	discardPile_ = new std::vector<Card*>();
 	score_ = 0;
-	playerNumber_ = playerNumber;
 }
 
 Player::~Player() {
@@ -37,6 +37,7 @@ int Player::getScore() {
 	return score_;
 }
 
+//calculate score by summing the discard pile ranks
 void Player::calculateScore() {
 	for (int i = 0; i < discardPile_->size(); i++) 
 		score_ += 1 + (*discardPile_)[i]->getRank();
@@ -49,6 +50,8 @@ void Player::setHand(std::vector<Card*> hand){
 		(*hand_).push_back(hand[i]);
 }
 
+//calls either Computer or Human make move. Returns command to 
+//determine behaviour in Game
 Command Player::makeMove(Table& table) {
 	return status_->makeMove(table, *hand_, *discardPile_);
 }

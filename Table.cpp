@@ -4,30 +4,23 @@
 #include <vector>
 #include <iostream>
 
+//need to initialize legal cards with 7S
 Table::Table(){
 	legalCards_.insert("7S");
 }
 Table::~Table(){}
 
+//returns true if card is in legal cards
 bool Table::isLegalCard(Card card) {
-	// std::cout << "Legal cards: " << legalCards_.size() << "\n";
-	// if (legalCards_.size() == 0) {
-	// 	if (card.getCardName(card.getRank(), card.getSuit()) != "7S") {
-	// 		return false;
-	// 	}
-	// 	return true;
-	// }
-	// else {
-		//need to check if card is in legalCards, right?
-		if (legalCards_.find(card.getCardName(card.getRank(), card.getSuit())) != legalCards_.end()) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	// }
+	if (legalCards_.find(card.getCardName(card.getRank(), card.getSuit())) != legalCards_.end()) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
+//prints cards on the table
 void Table::printStacks() {
 	std::cout << "Cards on the table: \n";
 	for (int i = 0; i < SUIT_COUNT; i++) {
@@ -69,13 +62,16 @@ void Table::printStacks() {
 		std::cout << "\n";
 	}
 }
+
 std::set<std::string> Table::getLegalCards() {
 	return legalCards_;
 }
 
 void Table::addToStacks(Card card) {
-	if (!isLegalCard(card)) return;
+	if (!isLegalCard(card)) return;  //guard
 	int suit = card.getSuit();
+
+	//determines if adding to front or back of stack
 	if (stacks_[suit].size() > 0 && card.getRank() < stacks_[suit][0]) {
 		stacks_[suit].insert(stacks_[suit].begin(), card.getRank());
 	}
@@ -85,13 +81,14 @@ void Table::addToStacks(Card card) {
 	updateLegalCards(card);
 }
 
+//recalculates legal card set after new card is played
 void Table::updateLegalCards(Card card) { //only called if card is allowed
 	int suit = card.getSuit();
 	int rank = card.getRank();
 	std::string cardName = card.getCardName(card.getRank(), card.getSuit());
 
 	legalCards_.erase(cardName);
-	// std::cout << (legalCards_.find("7S") == legalCards_.end()) << std::endl;
+	//special case: 7S played opens all other 7's
 	if (legalCards_.find("7S") == legalCards_.begin()) {
 		legalCards_.insert("7C");
 		legalCards_.insert("7D");
@@ -100,19 +97,20 @@ void Table::updateLegalCards(Card card) { //only called if card is allowed
 		legalCards_.insert("8S");
 		legalCards_.erase("7S");
 	}
-	else if (rank == (7-1)) { //index of 7 is 1 less
+	else if (rank == (7-1)) { //index of 7 is 1 less due to enum numeration
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 		legalCards_.insert(card.getCardName(Rank(card.getRank() + 1), card.getSuit()));
 	}
 	else if (rank == (13-1) || rank == (1-1)) {} //king and ace
-	else if (rank < (7-1)) {
+	else if (rank < (7-1)) { //cards less than 7
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 	}
-	else {
+	else { //cards greater than 7
 		legalCards_.insert(card.getCardName(Rank(card.getRank() + 1), card.getSuit()));
 	}
 }
 
+//reinitializes legal cards and clears stacks
 void Table::clearTable() {
 	legalCards_.clear();
 	legalCards_.insert("7S");

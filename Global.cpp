@@ -11,6 +11,7 @@ void printDeck() {
 	std::cout << std::endl;
 }
 
+//prints any vector of cards (hand, discard pile, legal cards)
 void printCards(std::vector<Card*>& cards) {
 	for (int i = 0; i < cards.size(); i++) {
 		std::cout << *(cards[i]);
