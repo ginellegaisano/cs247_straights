@@ -1,0 +1,14 @@
+h
+h
+h
+h
+ragequit
+discard 7H
+discard 7H
+discard 7H
+ragequit
+discard 7H
+ragequit
+deck
+ragequit
+quit

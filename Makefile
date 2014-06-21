@@ -1,7 +1,7 @@
 CPP = g++
 FLAGS = -Wall -g -MMD
 CXXFLAGS += -g
-TARGETS = Card.o Command.o Table.o Player.o Computer.o Human.o Status.o Global.o
+TARGETS = Card.o Command.o Table.o Player.o Computer.o Human.o Status.o Global.o Game.o
 EXE = straights
 
 all: $(TARGETS)

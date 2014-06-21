@@ -8,41 +8,34 @@ Clubs:
 Diamonds: 
 Hearts: 
 Spades: 
-Your hand: 7S 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
+Your hand: QD 5H JD 7H KD 4D 2S JS 7S 3C 5D 5C AS
 Legal plays: 7S
->Player 3 plays 7S.
-Player 4 plays 7H.
+>Player 3 ragequits. A computer will now take over.
+Player 3 plays 7S.
 Cards on the table: 
 Clubs: 
 Diamonds: 
-Hearts: 7
+Hearts: 
 Spades: 7
-Your hand: 10S 2D 3S KH 3H 2C 5D 10C 8S 10D AC KC QH
-Legal plays: 8S
->This is not a legal play.
->This is not a legal play.
->This is not a legal play.
->Player 1 plays 8S.
+Your hand: AH 2D 6D 6C AD AC KS 2H 6H 2C 3D 9C JH
+Legal plays: 
+>Player 4 ragequits. A computer will now take over.
+Player 4 discards AH.
 Cards on the table: 
 Clubs: 
 Diamonds: 
-Hearts: 7
-Spades: 7 8
-Your hand: 4D JH 6H JC KD 8C 7D 10H 4H 9S 6S 4S KS
-Legal plays: 6H 7D 9S 6S
->This is not a legal play.
->This is not a legal play.
->This is not a legal play.
->Player 2 ragequits. A computer will now take over.
-Player 2 plays 6H.
+Hearts: 
+Spades: 7
+Your hand: QC QH QS 8C 4C 8S 8D 9S 6S 10H 10S 8H 9D
+Legal plays: 8S 6S
+>Player 1 ragequits. A computer will now take over.
+Player 1 plays 8S.
 Cards on the table: 
 Clubs: 
 Diamonds: 
-Hearts: 6 7
+Hearts: 
 Spades: 7 8
-Your hand: 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
-Legal plays: 7C 5H 8H
->You have a legal play. You may not discard.
->You have a legal play. You may not discard.
+Your hand: 4H KH 7C 7D 9H JC 3S KC 3H 10D 10C 5S 4S
+Legal plays: 7C 7D
 >This is not a legal play.
 >

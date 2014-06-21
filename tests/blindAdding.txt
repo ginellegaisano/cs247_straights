@@ -1,7 +1,7 @@
 h
-H
-H
-C
+h
+h
+c
 play 7S
 play 7H
 play 7D

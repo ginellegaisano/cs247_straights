@@ -2,4 +2,40 @@ Is player 1 a human(h) or a computer(c)?
 >Is player 2 a human(h) or a computer(c)?
 >Is player 3 a human(h) or a computer(c)?
 >Is player 4 a human(h) or a computer(c)?
+>A new round begins. It's player 3's turn to play.
+Cards on the table: 
+Clubs: 
+Diamonds: 
+Hearts: 
+Spades: 
+Your hand: QD 5H JD 7H KD 4D 2S JS 7S 3C 5D 5C AS
+Legal plays: 7S
+>Player 3 ragequits. A computer will now take over.
+Player 3 plays 7S.
+Cards on the table: 
+Clubs: 
+Diamonds: 
+Hearts: 
+Spades: 7
+Your hand: AH 2D 6D 6C AD AC KS 2H 6H 2C 3D 9C JH
+Legal plays: 
+>Player 4 ragequits. A computer will now take over.
+Player 4 discards AH.
+Cards on the table: 
+Clubs: 
+Diamonds: 
+Hearts: 
+Spades: 7
+Your hand: QC QH QS 8C 4C 8S 8D 9S 6S 10H 10S 8H 9D
+Legal plays: 8S 6S
+>Player 1 ragequits. A computer will now take over.
+Player 1 plays 8S.
+Cards on the table: 
+Clubs: 
+Diamonds: 
+Hearts: 
+Spades: 7 8
+Your hand: 4H KH 7C 7D 9H JC 3S KC 3H 10D 10C 5S 4S
+Legal plays: 7C 7D
+>This is not a legal play.
 >

@@ -41,4 +41,40 @@ cat tests/blindAdding.txt | ~/Downloads/./straights > tests/CP2
 diff tests/CP1 tests/CP2
 echo "[Test blindAdding finished]"
 
-# echo "[Tests done]"
+echo "[Test deck]"
+cat tests/deck.txt | ./straights > tests/CP1
+cat tests/deck.txt | ~/Downloads/./straights > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test deck finished]"
+
+echo "[Test discard7H]"
+cat tests/discard7H.txt | ./straights > tests/CP1
+cat tests/discard7H.txt | ~/Downloads/./straights > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test discard7H finished]"
+
+echo "[Test playNonExistant]"
+cat tests/playNonExistant.txt | ./straights > tests/CP1
+cat tests/playNonExistant.txt | ~/Downloads/./straights > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test playNonExistant finished]"
+
+echo "[Test spaces]"
+cat tests/spaces.txt | ./straights  > tests/CP1
+cat tests/spaces.txt | ~/Downloads/./straights  > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test spaces finished]"
+
+echo "[Test spaces123]"
+cat tests/spaces.txt | ./straights 123 > tests/CP1
+cat tests/spaces.txt | ~/Downloads/./straights 123 > tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test spaces123 finished]"
+
+echo "[Test spaces32769]"
+cat tests/spaces.txt | ./straights  32769> tests/CP1
+cat tests/spaces.txt | ~/Downloads/./straights  32769> tests/CP2
+diff tests/CP1 tests/CP2
+echo "[Test spaces32769 finished]"
+
+echo "[Tests done]"

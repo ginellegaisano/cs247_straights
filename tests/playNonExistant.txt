@@ -1,0 +1,3 @@
+hccc
+play 7G
+quit

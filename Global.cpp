@@ -8,6 +8,7 @@ void printDeck() {
 		if ((i+1) % 13 == 0) std::cout << std::endl;
 		else std::cout << " ";
 	}
+	std::cout << std::endl;
 }
 
 void printCards(std::vector<Card*>& cards) {

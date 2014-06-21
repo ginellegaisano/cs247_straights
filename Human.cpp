@@ -30,6 +30,7 @@ Command Human::makeMove(Table& table, std::vector<Card*>& hand, std::vector<Card
 		try {
 			std::cout << ">";
 			std::cin >> command;
+			// std::cout << command.card << std::endl;
 			int index = isInHand(command.card, hand);
 
 			switch (command.type) {
