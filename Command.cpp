@@ -23,7 +23,6 @@ istream &operator>>(istream &in, Command &c){
 	} else if (cmd == "ragequit") {
 		c.type = RAGEQUIT;
 	}
-	// std::cout << "here?\n";
 	
 	assert(!in.fail() && c.type != BAD_COMMAND);
 	

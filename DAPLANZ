@@ -1,0 +1,40 @@
+VIEW:
+-implement all of game's implementation stuff. 
+
+Game View:
+	abstract player view
+		human view
+		computer view
+	table view.
+
+GTK stuff
+	
+	notify():
+		players hand - update players hand
+		table - update table. 
+		computer views
+			makemove.
+
+it will call the generic player's makemove
+on notify << it will call something like 
+
+CONTROLLER:
+	
+	game controller. minus the printing. 
+		table controller
+		player controller. <<
+	brain. it has makemove. 
+	abstract player controller
+		human controller
+		computer controller
+
+MODEL:
+	tells it what to do 
+
+	makemove stuff:
+		human view : player view <<knows what to display in its own makemove
+		player controller makemove
+		player makemove
+		status makemove
+		human makemove.
+		updates human view. 
