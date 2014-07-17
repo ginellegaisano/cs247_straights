@@ -1,16 +1,10 @@
-#ifndef VIEW_H
-#define VIEW_H
-
-#include <Game.h>
-#include <Player.h>
+#ifndef SUBJECT_H
+#define SUBJECT_H
 
 class Subject {
 	public:
 		subscribe (Observer*);
 		unsubscribe(Observer*);
-	private:
-		Player *player; //subscribe to a player
-		Game *game;
 	protected:
 		notify();
 };
