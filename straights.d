@@ -1,2 +1,1 @@
-straights: Main.cpp Game.h Player.h Card.h Command.h Status.h Table.h \
- Global.h
+straights: Main.cpp Game.h Player.h Card.h Status.h Table.h Command.h

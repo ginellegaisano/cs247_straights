@@ -1,15 +1,9 @@
 #include "Player.h"
 #include "Card.h"
-#include "Command.h"
 #include "Status.h"
 #include "Human.h"
 #include "Computer.h"
 #include <vector>
-#include "Global.h"
-
-void Player::printDiscards() {
-	printCards(*discardPile_);
-}
 
 //clears discard pile
 void Player::clearCards() {
@@ -39,7 +33,7 @@ int Player::getScore() {
 
 //calculate score by summing the discard pile ranks
 void Player::calculateScore() {
-	for (int i = 0; i < discardPile_->size(); i++) 
+	for (int i = 0; i < discardPile_->size(); i++)
 		score_ += 1 + (*discardPile_)[i]->getRank();
 }
 
@@ -52,8 +46,8 @@ void Player::setHand(std::vector<Card*> hand){
 
 //calls either Computer or Human make move. Returns command to 
 //determine behaviour in Game
-Command Player::makeMove(Table& table) {
-	return status_->makeMove(table, *hand_, *discardPile_);
+void Player::makeMove(Card* c, Table& table) {
+	return status_->makeMove(c, table, *hand_, *discardPile_);
 }
 
 void Player::rageQuit() {

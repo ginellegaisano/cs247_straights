@@ -20,47 +20,8 @@ bool Table::isLegalCard(Card card) {
 	}
 }
 
-//prints cards on the table
-void Table::printStacks() {
-	std::cout << "Cards on the table: \n";
-	for (int i = 0; i < SUIT_COUNT; i++) {
-		switch(i) {
-			case 0:
-				std::cout << "Clubs: ";
-				break;
-			case 1:
-				std::cout << "Diamonds: ";
-				break;
-			case 2:
-				std::cout << "Hearts: ";
-				break;
-			case 3:
-				std::cout << "Spades: ";
-				break;
-		}
-
-		for (int j = 0; j < stacks_[i].size(); j++){
-			switch (stacks_[i][j]) {
-				case 0:
-					std::cout << "A";
-					break;
-				case 10:
-					std::cout << "J";
-					break;
-				case 11:
-					std::cout << "Q";
-					break;
-				case 12:
-					std::cout << "K";
-					break;
-				default:
-					std::cout << stacks_[i][j]+1;
-
-			}
-			if (j !=  stacks_[i].size()-1) std::cout << " ";
-		}
-		std::cout << "\n";
-	}
+std::vector<int> Table::getStacks(int i){
+	return stacks_[i];
 }
 
 std::set<std::string> Table::getLegalCards() {
@@ -97,12 +58,12 @@ void Table::updateLegalCards(Card card) { //only called if card is allowed
 		legalCards_.insert("8S");
 		legalCards_.erase("7S");
 	}
-	else if (rank == (7-1)) { //index of 7 is 1 less due to enum numeration
+	else if (rank == (7 - 1)) { //index of 7 is 1 less due to enum numeration
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 		legalCards_.insert(card.getCardName(Rank(card.getRank() + 1), card.getSuit()));
 	}
-	else if (rank == (13-1) || rank == (1-1)) {} //king and ace
-	else if (rank < (7-1)) { //cards less than 7
+	else if (rank == (13 - 1) || rank == (1 - 1)) {} //king and ace
+	else if (rank < (7 - 1)) { //cards less than 7
 		legalCards_.insert(card.getCardName(Rank(card.getRank() - 1), card.getSuit()));
 	}
 	else { //cards greater than 7

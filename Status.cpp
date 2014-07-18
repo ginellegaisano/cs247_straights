@@ -24,7 +24,7 @@ void Status::play(Table& table, Card& card, std::vector<Card*>& hand) {
 
 		hand.erase(hand.begin() + index);
 	}
-	catch(int) {
+	catch (int) {
 		throw 1; //taken care of in makeMove
 	}
 
@@ -48,7 +48,7 @@ void Status::discard(Table& table, Card& card, std::vector<Card*>& hand, std::ve
 		discardPile.push_back(&card);
 		hand.erase(hand.begin() + index);
 	}
-	catch(int e) {
+	catch (int e) {
 		throw e;
 	}
 }

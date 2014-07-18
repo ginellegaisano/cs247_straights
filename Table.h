@@ -7,18 +7,18 @@
 
 
 class Table {
-	public:
-		Table();
-		~Table();
-		void printStacks();
-		std::set<std::string> getLegalCards(); //so that can be used to print
-		void addToStacks(Card);
-		bool isLegalCard(Card);
-		void clearTable();
-	private:
-		void updateLegalCards(Card); //called when we add to a stack
-		std::vector<int> stacks_[4];
-		std::set<std::string> legalCards_; 
+public:
+	Table();
+	~Table();
+	std::vector<int> getStacks(int i);
+	std::set<std::string> getLegalCards(); //so that can be used to print
+	void addToStacks(Card);
+	bool isLegalCard(Card);
+	void clearTable();
+private:
+	void updateLegalCards(Card); //called when we add to a stack
+	std::vector<int> stacks_[4];
+	std::set<std::string> legalCards_;
 
 };
 

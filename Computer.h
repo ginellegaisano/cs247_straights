@@ -5,17 +5,16 @@
 #include "Card.h"
 #include "Table.h"
 #include <vector>
-#include "Command.h"
 
 //entity ADT
 class Computer : public Status {
-	public:
-		Computer();
-		virtual ~Computer();
-		Command makeMove(Table&, std::vector<Card*>&, std::vector<Card*>&); //play, discard
-	private:
-		Computer(Computer&);
-		Computer& operator= (Computer&);
+public:
+	Computer();
+	virtual ~Computer();
+	void makeMove(Card*, Table&, std::vector<Card*>&, std::vector<Card*>&); //play, discard
+private:
+	Computer(Computer&);
+	Computer& operator= (Computer&);
 };
 
 #endif

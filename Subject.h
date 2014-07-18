@@ -1,12 +1,20 @@
 #ifndef SUBJECT_H
 #define SUBJECT_H
 
-class Subject {
-	public:
-		subscribe (Observer*);
-		unsubscribe(Observer*);
-	protected:
-		notify();
+#include <set>
+
+class Observer;
+
+class Subject{
+public:
+	void subscribe(Observer*);
+	void unsubscribe(Observer*);
+protected:
+	void notify();
+private:
+	typedef std::set<Observer*> Observers;
+	Observers observers_;
+
 };
 
 #endif

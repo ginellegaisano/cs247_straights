@@ -8,7 +8,6 @@
 #include "Command.h"
 #include <cassert>
 #include <iostream>
-#include "Global.h"
 
 class Game {
 	public: 

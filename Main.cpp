@@ -10,8 +10,8 @@ int main (int argc, char* argv[]) {
 	else seed = 0;
 	srand48(seed);
 
-	Game *game = new Game();
-	game->playGame();
+	// Game *game = new Game();
+	// game->playGame();
 
-	delete game;
+	// delete game;
 }
