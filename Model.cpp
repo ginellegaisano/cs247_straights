@@ -219,19 +219,46 @@ std::vector <std::pair <int, int> > Model::getTable(){
 int Model::getScore(){
 	return players[currentPlayer_]->getScore();
 }
+
+std::string Model::getCardName(int cardNum){
+	std::cout << "in get card name with " << cardNum <<"\n";
+	Card* card = (*players[currentPlayer_]->getHand())[cardNum];
+	std:: cout << "card " << card->getCardName(card->getRank(), card->getSuit()) <<std::endl;
+	string ret = card->getCardName(card->getRank(), card->getSuit());
+	return ret;
+}
+
+std::string Model::getLastPlayedCard() {
+	string ret;
+	if (lastPlayedCard_.first) ret += "Played ";
+	else ret += "Discarded ";
+
+	ret += cards[0]->getCardName(lastPlayedCard_.second.first, lastPlayedCard_.second.second);
+	return ret;
+}
+
+
 void Model::makeMove(int a=-1){
 	cardsPlayed++;
 	cout << "in model make move\n";
+	pair <bool, pair <Rank, Suit> > currentCard;
+	if (getLegalMoves().size()!=0) currentCard.first = 1;
+	else currentCard.first = 0;
 	std::vector<Card*>* hand = players[currentPlayer_]->getHand();
 	Card* c;
 	if (a!=-1){
 		c = (*hand)[a];
 	}else{
 		if (getLegalMoves().size()!=0){
-			cout<<getLegalMoves()[0]<<endl;
 			c = (*hand)[(getLegalMoves()[0])];
-		}c = (*hand)[0];
+		}
+		else 
+			c = (*hand)[0];
 	}
+		currentCard.second.first = c->getRank();
+		currentCard.second.second = c->getSuit();
+
+	lastPlayedCard_ = currentCard;
 	players[currentPlayer_]->makeMove(c,*table);
 	cout << "move";
 	currentPlayer_ = (currentPlayer_ + 1) % 4;

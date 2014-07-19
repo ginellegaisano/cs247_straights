@@ -7,6 +7,7 @@ namespace {
 		b << a;
 		return b.str();
 	}
+
 }
 
 View::View(Controller *controller, Model *model): controller_(controller), model_(model),
@@ -180,18 +181,13 @@ void View::onRageQuitButtonClicked(int playerNum){
 void View::onCardButtonClicked(int cardNum){
 	string message;
 	bool mustDiscard = (controller_->getLegalMoves().size() == 0);
+	// dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\n" + controller_->getCardName(cardNum));
 	bool played = controller_->playCard(cardNum);
 	cout << "played = " << played << endl;
-	if (played) {
-		if (mustDiscard)
-			message += "Discarding card " + intToString(cardNum);
-		else
-			message += "Playing card " + intToString(cardNum);
-	}
-	else 
+	if (!played)  {
 		message += "Invalid Card";
-
-	dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\n" + message);
+		dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\n" + message);
+	}
 
 }
 
@@ -215,14 +211,19 @@ View::~View() {
 void View::update() {
 	cout << "Updating\n";
 	//update dialog box
-	dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\nPlayer "  + intToString(controller_->getPlayerNum()+1));
 		//if end game, print scores to dialog box
 		//get endGame
 			//if endGame, print winner, clear everything and return
+		dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\n" + controller_->getLastPlayedCard());
 
-	//Update table
+	dialogBoxLabel.set_label (dialogBoxLabel.get_label() + "\nPlayer "  + intToString(controller_->getPlayerNum()+1) + "'s turn");
+
+		// if (mustDiscard)
+		// 	message += "Discarding card " + intToString(cardNum);
+		// else
+		// 	message += "Playing card " + intToString(cardNum);
 	
-	//test
+	//Update table
 	vector<pair<int, int > > tableCards_ = controller_->getTable();
 	for (int i = 0; i < tableCards_.size(); i++)
 		tableImages[tableCards_[i].first][tableCards_[i].second]->set(*cardImages[tableCards_[i].first][tableCards_[i].second]);
@@ -263,10 +264,12 @@ void View::update() {
 
 					if (controller_->getLegalMoves().size() == 0) {
 					cout << "legal moves: "<<controller_->getLegalMoves().size()  << endl;
-						dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\nNo legal moves - choose discard");
+						dialogBoxLabel.set_label (dialogBoxLabel.get_label() + "\nNo legal moves \nChoose discard");
 					}
 
 				}
+			// dialogBoxLabel.set_label(message);
+
 
 
 }

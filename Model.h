@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <cassert>
+#include <string>
 
 #include "Subject.h"
 #include "Player.h"
@@ -28,11 +29,12 @@ public:
 
 	int getPlayerNum();
 	bool getPlayerType();
+	std::string getLastPlayedCard();
 	int getScore();
 	bool finish();
 	bool isLegalMoves(int i);
 	
-
+	std::string getCardName(int);
 	void makeMove(int);
 
 	int newGame(int seed);
@@ -40,6 +42,7 @@ public:
 	void initializeDeck(bool players[4]);
 	//void quit??
 private:
+	std::pair <bool, std::pair <Rank ,Suit > > lastPlayedCard_;
 	bool finished;
 	int cardsPlayed;
 	std::vector<int> winner;

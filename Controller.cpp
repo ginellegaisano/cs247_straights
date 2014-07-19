@@ -56,5 +56,14 @@ std::vector<int> Controller::getLegalMoves(){
 bool Controller::getPlayerType(){
 	return model_->getPlayerType();
 }
+
+std::string Controller::getCardName(int cardNum) {
+	return model_->getCardName(cardNum);
+}
+
+std::string Controller::getLastPlayedCard() {
+	return model_->getLastPlayedCard();
+}
+
 int Controller::getScore(){}
 bool Controller::finished(){}

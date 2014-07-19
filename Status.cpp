@@ -19,6 +19,7 @@ void Status::play(Table& table, Card& card, std::vector<Card*>& hand) {
 	try {
 		//checks if card is in hand
 		int index = isInHand(card, hand);
+		std::cout << "is in hand: " << index << std::endl;
 		if (index == -1 || !table.isLegalCard(card)) throw 1;
 		table.addToStacks(card);
 
@@ -49,6 +50,7 @@ void Status::discard(Table& table, Card& card, std::vector<Card*>& hand, std::ve
 		hand.erase(hand.begin() + index);
 	}
 	catch (int e) {
+		std:: cout << "error code: " << e << std::endl;
 		throw e;
 	}
 }

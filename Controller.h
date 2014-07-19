@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "Model.h"
 #include <vector>
+#include <string>
 
 class Controller {
 public:
@@ -21,6 +22,8 @@ public:
 
 	//get statements. information?
 	int getPlayerNum();
+	std::string getCardName(int);
+	std::string getLastPlayedCard();
 	std::vector<int> getLegalMoves();
 	std::vector<std::pair<int, int> > getTable();
 	std::vector<std::pair<int, int> > getHand();
