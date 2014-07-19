@@ -1,10 +1,11 @@
 #ifndef OBSERVER_H
 #define OBSERVER_H
 
-Class Subject;
+class Subject;
 
-Class Obsever{
-	public virtual voide update() = 0;
+class Observer{
+public:
+	virtual void update() = 0;
 };
 
 #endif

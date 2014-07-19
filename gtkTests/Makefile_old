@@ -1,0 +1,16 @@
+CXX = g++
+CXXFLAGS = -Wall -O -g `pkg-config --cflags --libs gtkmm-2.4`
+OBJS = View.o DeckGUI.o
+EXEC = helloWorld
+
+helloWorld: $(OBJS)
+	$(CXX) $(OBJS) $(CXXFLAGS) -o $(EXEC) 
+
+View.o: View.cpp
+
+
+tags:
+		ctags -R -a --c++-kinds=+p --fields=+iaS --extra=+q
+
+clean:
+		rm -rf *.d *.o *.dSYM $(EXE) 

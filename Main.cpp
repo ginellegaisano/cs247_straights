@@ -1,17 +1,20 @@
-#include "Game.h"
+// #include "Game.h"
+#include "View.h"
 #include <iostream>
+#include "Controller.h"
+#include "Model.h"
 
 using namespace std;
 
 
-int main (int argc, char* argv[]) {
-	long seed;
-	if (argv[1] != NULL) seed = atoi(argv[1]);
-	else seed = 0;
-	srand48(seed);
+int main(int argc, char* argv[]){
+	Gtk::Main kit (argc, argv);
+	Model model;
+	Controller controller(&model);
+	View window(&controller, &model);
+	Gtk::Main::run( window );
 
-	// Game *game = new Game();
-	// game->playGame();
+	//hand view!
 
-	// delete game;
-}
+	return 0;
+ }

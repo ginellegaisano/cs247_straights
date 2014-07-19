@@ -13,7 +13,7 @@ public:
 	void setHand(std::vector<Card*>);
 	void makeMove(Card*, Table&);
 	int getScore();
-	std::vector<Card*>* getHand;
+	std::vector<Card*>* getHand();
 	void calculateScore();
 	void printDiscards();
 	void clearCards();

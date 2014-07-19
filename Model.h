@@ -13,8 +13,6 @@
 #include "Table.h"
 #include "Card.h"
 
-Card *cards_[52];
-
 class Model : public Subject{
 public:
 	Model();
@@ -24,6 +22,7 @@ public:
 	std::vector <std::pair <int, int> > getTable();
 	std::vector <int> getWinner();
 
+
 	void ragequit();
 
 
@@ -31,6 +30,7 @@ public:
 	bool getPlayerType();
 	int getScore();
 	bool finish();
+	bool isLegalMoves(int i);
 	
 
 	void makeMove(int);
@@ -45,11 +45,13 @@ private:
 	std::vector<int> winner;
 	int loser;
 	bool playerStat[4];
-	int currentPlayer_ = 2;
+	int currentPlayer_;
 	bool deal(int);
-	void shuffle(int);
+	void shuffle(long);
 	Player *players[4];
 	Table *table;
+	Card *cards[52];
+
 };
 
 #endif

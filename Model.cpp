@@ -2,6 +2,8 @@
 
 #define CARD_COUNT 52
 
+// Card *cards[52];
+
 using namespace std;
 
 Model::Model() {
@@ -13,28 +15,32 @@ Model::~Model() {
 
 	delete table;
 
-	for (int i = 0; i < 52; i++) delete cards_[i];
+	for (int i = 0; i < 52; i++) delete cards[i];
 }
 //shuffles the hards.
-void Model::shuffle(int seed){
+void Model::shuffle(long seed){
+	cout<<"shuffled\n";
 	int n = CARD_COUNT;
 
 	srand48(seed);
 
+
 	while (n > 1) {
 		int k = (int)(lrand48() % n);
 		--n;
-		Card *c = cards_[n];
-		cards_[n] = cards_[k];
-		cards_[k] = c;
+		Card *c = cards[n];
+		cards[n] = cards[k];
+		cards[k] = c;
 	}
 }
 
 //initializes deck of cards with cards objects in order 
-void Model::initializeDeck( bool players[4]) {
+void Model::initializeDeck( bool player_[4]) {
+
+	std::cout << "Initializing deck...\n";
 	for (int i = 0; i < 4; i++) {
-		playerStat[i] = players[i];
-		players[i] = new Player(players[i]);
+		playerStat[i] = player_[i];
+		players[i] = new Player(playerStat[i]);
 	}
 	for (int i = 0; i < 4; i++){
 		Suit suit;
@@ -55,61 +61,65 @@ void Model::initializeDeck( bool players[4]) {
 		for (int j = 0; j < 13; j++){
 			switch (j) {
 			case 0:
-				cards_[(i * 13) + j] = new Card(suit, ACE);
+				cards[(i * 13) + j] = new Card(suit, ACE);
 				break;
 			case 1:
-				cards_[(i * 13) + j] = new Card(suit, TWO);
+				cards[(i * 13) + j] = new Card(suit, TWO);
 				break;
 			case 2:
-				cards_[(i * 13) + j] = new Card(suit, THREE);
+				cards[(i * 13) + j] = new Card(suit, THREE);
 				break;
 			case 3:
-				cards_[(i * 13) + j] = new Card(suit, FOUR);
+				cards[(i * 13) + j] = new Card(suit, FOUR);
 				break;
 			case 4:
-				cards_[(i * 13) + j] = new Card(suit, FIVE);
+				cards[(i * 13) + j] = new Card(suit, FIVE);
 				break;
 			case 5:
-				cards_[(i * 13) + j] = new Card(suit, SIX);
+				cards[(i * 13) + j] = new Card(suit, SIX);
 				break;
 			case 6:
-				cards_[(i * 13) + j] = new Card(suit, SEVEN);
+				cards[(i * 13) + j] = new Card(suit, SEVEN);
 				break;
 			case 7:
-				cards_[(i * 13) + j] = new Card(suit, EIGHT);
+				cards[(i * 13) + j] = new Card(suit, EIGHT);
 				break;
 			case 8:
-				cards_[(i * 13) + j] = new Card(suit, NINE);
+				cards[(i * 13) + j] = new Card(suit, NINE);
 				break;
 			case 9:
-				cards_[(i * 13) + j] = new Card(suit, TEN);
+				cards[(i * 13) + j] = new Card(suit, TEN);
 				break;
 			case 10:
-				cards_[(i * 13) + j] = new Card(suit, JACK);
+				cards[(i * 13) + j] = new Card(suit, JACK);
 				break;
 			case 11:
-				cards_[(i * 13) + j] = new Card(suit, QUEEN);
+				cards[(i * 13) + j] = new Card(suit, QUEEN);
 				break;
 			case 12:
-				cards_[(i * 13) + j] = new Card(suit, KING);
+				cards[(i * 13) + j] = new Card(suit, KING);
 				break;
 			}
 		}
 	}
+	//notify();
 }
 
 //deals to hand to player and returns true if player has 7 of spades
 bool Model::deal(int playerNum){
 	vector<Card*> hand;
 	bool firstPlayer = false;
+	cout<<"dealing...\n";
 	for (int j = 0; j < 13; j++){
-		Card* curCard = cards_[playerNum * 13 + j];
+		Card* curCard = cards[playerNum * 13 + j];
 		string cardName = curCard->getCardName(curCard->getRank(), curCard->getSuit());
+		cout<<cardName<<endl;
 		(hand).push_back(curCard);
 		if (cardName == "7S") firstPlayer = true;
 	}
-
+	cout<<"we have done some shit."<<endl;
 	players[playerNum]->setHand(hand);
+	//notify();
 
 	return firstPlayer;
 }
@@ -129,6 +139,8 @@ bool Model::finish(){
 
 		if (curScore >= 80) finished = true;
 	}
+	notify();
+
 	return finished;
 }
 
@@ -139,18 +151,23 @@ std::vector <int> Model::getWinner(){
 //cleans up table
 void Model::finishRound(){
 	table->clearTable();
+	notify();
 
 }
 
 //deals hands and returns the starting player
 int Model::newGame(int seed) {
+	cout << "new game...\n";
 	finished = false;
 	shuffle(seed);
 	int startingPlayer;
 	for (int i = 0; i < 4; i++){
+		cout<<"deal for player: " << i << endl;
 		if (deal(i)) startingPlayer = i;
 	}
 	currentPlayer_ = startingPlayer;
+	notify();
+	cout << "w11111";
 	return startingPlayer;
 }
 
@@ -159,19 +176,23 @@ std::vector <std::pair <int, int> > Model::getHand(){
 	int suit;
 	int rank;
 	std::pair<int, int> cardInt;
-	std::vector<Card*>* handCard = players[currentPlayer_]->getHand;
+	cout<<"got into model->getHand\n";
+	std::vector<Card*>* handCard = players[currentPlayer_]->getHand();
+	cout<<"smugf"<<endl;
 	for (int i = 0; i < (*handCard).size(); i++){
 		suit = (*handCard)[i]->getSuit();
-		rank = (*handCard)[i]->getRank();
+		rank = (*handCard)[i]->getRank(); 
+		cout<<"handCard is" <<(*handCard)[i]->getCardName((*handCard)[i]->getRank(), (*handCard)[i]->getSuit())<<" correspond with\n suit:  " << suit <<" rank: "<<rank<<endl; 
 		cardInt.first = (int) suit;
 		cardInt.second = (int) rank;
 		ret.push_back(cardInt);
-	}
+	}	
+	return ret;
 }
 
 std::vector <int> Model::getLegalMoves(){
 	std::vector<int> ret;
-	std::vector<Card*>* handCard = players[currentPlayer_]->getHand;
+	std::vector<Card*>* handCard = players[currentPlayer_]->getHand();
 	for (int i = 0; i < (*handCard).size(); i++){
 		if (table->isLegalCard((*(*handCard)[i]))) ret.push_back(i);
 	}
@@ -186,7 +207,7 @@ std::vector <std::pair <int, int> > Model::getTable(){
 		tableVector = table->getStacks(i);
 		for (int j = 0; j < tableVector.size(); j++){
 			card.first = i;
-			card.first = tableVector[j];
+			card.second = tableVector[j];
 			ret.push_back(card);
 		}
 	}
@@ -200,12 +221,21 @@ int Model::getScore(){
 }
 void Model::makeMove(int a=-1){
 	cardsPlayed++;
-	std::vector<Card*>* hand = players[currentPlayer_]->getHand;
+	cout << "in model make move\n";
+	std::vector<Card*>* hand = players[currentPlayer_]->getHand();
 	Card* c;
-	if (a!=-1)	c = (*hand)[a];
-	else c = (*hand)[0];
+	if (a!=-1){
+		c = (*hand)[a];
+	}else{
+		if (getLegalMoves().size()!=0){
+			cout<<getLegalMoves()[0]<<endl;
+			c = (*hand)[(getLegalMoves()[0])];
+		}c = (*hand)[0];
+	}
 	players[currentPlayer_]->makeMove(c,*table);
+	cout << "move";
 	currentPlayer_ = (currentPlayer_ + 1) % 4;
+	notify();
 }
 
 bool Model::getPlayerType(){
@@ -218,4 +248,12 @@ int Model::getPlayerNum(){
 
 void Model::ragequit(){
 	playerStat[currentPlayer_] = false;
+	notify();
+	
+}
+
+bool Model::isLegalMoves(int i){
+	std::vector<Card*>* hand = players[currentPlayer_]->getHand();
+	Card*c = (*hand)[i];
+	return table->isLegalCard(*c);
 }

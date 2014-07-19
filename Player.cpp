@@ -4,6 +4,7 @@
 #include "Human.h"
 #include "Computer.h"
 #include <vector>
+#include <iostream>
 
 //clears discard pile
 void Player::clearCards() {
@@ -31,6 +32,11 @@ int Player::getScore() {
 	return score_;
 }
 
+std::vector<Card*>* Player::getHand(){
+	return hand_;
+}
+
+
 //calculate score by summing the discard pile ranks
 void Player::calculateScore() {
 	for (int i = 0; i < discardPile_->size(); i++)
@@ -38,15 +44,19 @@ void Player::calculateScore() {
 }
 
 void Player::setHand(std::vector<Card*> hand){
+	std::cout << "rer\n";
 	(*hand_).clear();
+	std::cout << "rer\n";
 
-	for (int i = 0; i < 13; i++)
-		(*hand_).push_back(hand[i]);
+	for (int i = 0; i < 13; i++){
+		std::cout<<i<<std::endl;
+		(*hand_).push_back(hand[i]);}
 }
 
 //calls either Computer or Human make move. Returns command to 
 //determine behaviour in Game
 void Player::makeMove(Card* c, Table& table) {
+	std::cout << "to status make move\n";
 	return status_->makeMove(c, table, *hand_, *discardPile_);
 }
 
