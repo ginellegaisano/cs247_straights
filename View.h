@@ -24,8 +24,7 @@ class View : public Gtk::Window, public Observer{
 		Controller *controller_;
 		Model *model_;
 		//signal handlers?
-		virtual void onButtonClicked();
-		virtual void onSeedNumButtonClicked();
+		virtual void onNewGameButtonClicked();
 		virtual void onQuitButtonClicked();
 		virtual void onRageQuitButtonClicked(int);
 		virtual void onCardButtonClicked(int);

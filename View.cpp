@@ -18,7 +18,8 @@ View::View(Controller *controller, Model *model): controller_(controller), model
 				HplayersBox(true,0) ,quitGame("Quit Game"),
 				dialogButton("Enter"), dialogCounter(0),
 				newGame("New Game with seed number:" ) ,
-				dialogBoxLabel("Welcome!\n Player 1: Are you \nHuman(h) or Computer(c)?"), HhandBox(false, 0) {
+				dialogBoxLabel("Welcome!\n Player 1: Are you \nHuman(h) or Computer(c)?"), 
+				HhandBox(false, 0) {
 
 	//subscribing to model
 	model_->subscribe(this);
@@ -81,7 +82,7 @@ View::View(Controller *controller, Model *model): controller_(controller), model
 	Vplay.add(Hspades);
 
 	//4 plays information fields. 
-	for (int i = 0; i < 4; i ++){
+	for (int i = 0; i < PLAYER_COUNT; i ++){
 		playerBoxes[i] = new Gtk::VBox(false, 0);
 		scores[i].set_label("Score: 0");
 		names[i].set_label("Player " + intToString(i+1));
@@ -103,7 +104,7 @@ View::View(Controller *controller, Model *model): controller_(controller), model
 	Vplay.add(HplayersBox);
 	
 	//setting player hand test
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i < MAX_HAND_COUNT; i++) {
 		handImages[i] = new Gtk::Image(deck.getNullCardImage());
 		// handImages[i]->set(*cardImages[0][i]);
 		handButtons[i].set_image(*handImages[i]);
@@ -118,7 +119,7 @@ View::View(Controller *controller, Model *model): controller_(controller), model
 	Hgame.add(Vplay);
 	V.add(Hgame);
 
-	newGame.signal_clicked().connect( sigc::mem_fun( *this, &View::onSeedNumButtonClicked ) );
+	newGame.signal_clicked().connect( sigc::mem_fun( *this, &View::onNewGameButtonClicked ) );
 	quitGame.signal_clicked().connect( sigc::mem_fun( *this, &View::onQuitButtonClicked ) );
 	dialogButton.signal_clicked().connect( sigc::mem_fun( *this, &View::onDialogButtonClicked ) );
 	
@@ -130,10 +131,6 @@ View::View(Controller *controller, Model *model): controller_(controller), model
 	show_all();
 
 	Hmenu.hide();
-}
-
-void View::onButtonClicked(){
-	// some_button.set_label("beat.");
 }
 
 void View::onDialogButtonClicked(){
@@ -148,7 +145,7 @@ void View::onDialogButtonClicked(){
 	else
 		dialogMessage += "\n" + dialogBoxEntry.get_text() + " is invalid\n";
 
-	if (playerStatus.size() != 4) {
+	if (playerStatus.size() != PLAYER_COUNT) {
 		dialogMessage += "Player " + intToString(playerStatus.size()+1) + ": Are you \nHuman(h) or Computer(c)?";
 		dialogBoxEntry.set_text("");
 		dialogBoxLabel.set_text(dialogMessage);
@@ -159,12 +156,11 @@ void View::onDialogButtonClicked(){
 		Hmenu.show_all();
 
 		controller_->initializeDeck(playerStatus);
-		for (int i = 0; i < 13; i++)
+		for (int i = 0; i < MAX_HAND_COUNT; i++)
 			handButtons[i].signal_clicked().connect( sigc::bind<int>( sigc::mem_fun(*this, &View::onCardButtonClicked), i));
 
 		dialogBoxEntry.hide();
 		dialogButton.hide();
-		cout << "CONTROLLER HAS DONE THINGS\n";
 		playerStatus.clear();
 	}
 
@@ -172,14 +168,13 @@ void View::onDialogButtonClicked(){
 
 }
 
-void View::onSeedNumButtonClicked(){//new name
-	cout << "~~~~~~~~~~~~~~~~~~~~~~~~\n";
+void View::onNewGameButtonClicked(){//new name
 	cout<<(atoi(seedNum.get_text().c_str()))<<endl;
 	clearTable();
 	dialogCounter = 123;
 	updateDialogBox("Welcome to the game.");
-	controller_->startNewGame(atoi(seedNum.get_text().c_str()));
 	controller_->resetPlayerScores();
+	controller_->startNewGame(atoi(seedNum.get_text().c_str()));
 	setHandButtonsStatus(true);
 	// updateDialogBox(seedNum.get_text());
 }
@@ -201,7 +196,7 @@ void View::onCardButtonClicked(int cardNum){
 	bool mustDiscard = (controller_->getLegalMoves().size() == 0);
 	// dialogBoxLabel.set_label(dialogBoxLabel.get_label() + "\n" + controller_->getCardName(cardNum));
 	bool played = controller_->playCard(cardNum);
-	cout << "played = " << played << endl;
+	// cout << "played = " << played << endl;
 	if (!played)  {
 		message += "Invalid Card";
 		updateDialogBox( message);
@@ -211,17 +206,14 @@ void View::onCardButtonClicked(int cardNum){
 
 View::~View() {
 	model_->unsubscribe(this);
-	for (int i = 0; i < 4; i++) {
-		cout << "deleting player box " << intToString(i) << endl;
+	for (int i = 0; i < PLAYER_COUNT; i++) {
 		delete playerBoxes[i];
-		for (int j = 0; j < 13; j++) {
-		cout << "deleting cards " << intToString(j) << endl;
+		for (int j = 0; j < MAX_HAND_COUNT; j++) {
 			delete cardImages[i][j];
 			delete tableImages[i][j];
 		}
 	}
-	for (int i = 0; i < 13 ; i++) {
-		cout << "deleting hand " << intToString(i) << endl;
+	for (int i = 0; i < MAX_HAND_COUNT ; i++) {
 		delete handImages[i];
 	}
 	cout << "deleted View\n";
@@ -276,11 +268,8 @@ void View::update() {
 			std::cout<<"before getting the hand\n";
 			setHandButtonsStatus(true);
 			vector <int> legalCards = controller_->getLegalMoves();
-			// Gtk::RGBA highlight = Gtk::RGBA(50, 50, 50, 50);
-			GdkColor color;
-			gdk_color_parse ("red", &color);
-			for (int i = 0; i < legalCards.size(); i++)
-				gtk_widget_modify_bg (handButtons[legalCards[i]], GTK_STATE_NORMAL, &color);
+
+				// gtk_widget_modify_bg (GTK_WIDGET(handButtons[legalCards[i]]), GTK_STATE_NORMAL, &color);
 			vector <pair<int, int> > hand = controller_->getHand();
 			std::cout<<"after getHand\n";
 			// for (int i = 0; i < 10; i++) //setting hand
@@ -304,7 +293,7 @@ void View::update() {
 	
 	//update player boxes
 	//Update rageQuit buttons (disable when not player's turn)
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < PLAYER_COUNT; i++) {
 		scores[i].set_label("Score: " + intToString(controller_->getScore(i)));
 		discards[i].set_label("Discard: " + intToString(controller_->getDiscard(i)));
 		if (controller_->getPlayerNum() == i && controller_->getPlayerType()) 
@@ -317,8 +306,10 @@ void View::update() {
 void View::setHand(vector<pair<int ,int> > hand) {
 	for (int i = 0; i < hand.size(); i++) //setting hand
 		handImages[i]->set(*cardImages[hand[i].first][hand[i].second]);
-	for (int i = hand.size(); i < 13; i++)
+	for (int i = hand.size(); i < MAX_HAND_COUNT; i++) {
 		handImages[i]->set(deck.getNullCardImage());
+		handButtons[i].set_sensitive(false);
+	}
 }
 
 void View::updateDialogBox(string message) {
@@ -334,13 +325,13 @@ void View::updateDialogBox(string message) {
 }
 
 void View::setHandButtonsStatus(bool on) {
-	for (int i = 0; i < 13; i++)
+	for (int i = 0; i < MAX_HAND_COUNT; i++)
 		handButtons[i].set_sensitive(on);
 
 }
 
 void View::clearTable() {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < PLAYER_COUNT; i++)
 			for (int j = 0; j < 13; j++)
 				tableImages[i][j]->set(deck.getNullCardImage());
 }

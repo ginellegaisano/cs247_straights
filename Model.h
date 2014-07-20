@@ -14,46 +14,51 @@
 #include "Table.h"
 #include "Card.h"
 
+#define PLAYER_COUNT 4
+#define MAX_HAND_COUNT 13
+
 class Model : public Subject{
 public:
-	Model();
-	~Model();
+	Model();											//constructor
+	~Model();											//desctructor
+
+	//accessors
 	std::vector <std::pair <int, int> > getHand();
 	std::vector <int> getLegalMoves();
 	std::vector <std::pair <int, int> > getTable();
 	std::vector <int> getWinner();
-
-
-	void ragequit();
-
 	int getDiscard(int);
 	int getPlayerNum();
-	void resetPlayerScores();
 	bool getPlayerType();
 	std::string getLastPlayedCard();
+	std::string getCardName(int);
 	int getScore(int);
+
+	//mutators
+	void resetPlayerScores();
+	
+	//methods
+	void ragequit();
 	bool finish();
 	bool isLegalMoves(int i);
 	bool gameDone();
-	std::string getCardName(int);
 	void makeMove(int);
 	int newGame(int seed);
 	void initializeDeck(bool players[4]);
-	//void quit??
+
 private:
 	std::pair <bool, std::pair <Rank ,Suit > > lastPlayedCard_;
-	bool finished;
-	int cardsPlayed;
 	std::vector<int> winner;
-	int loser;
+	bool finished;
 	bool playerStat[4];
-	int currentPlayer_;
 	bool deal(int);
+	int currentPlayer_;
+	int cardsPlayed;
+	int loser;
 	void shuffle(long);
 	Player *players[4];
 	Table *table;
 	Card *cards[52];
-
 };
 
 #endif

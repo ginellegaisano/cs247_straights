@@ -10,7 +10,7 @@ class Status {
 public:
 	Status();
 	virtual ~Status();
-	virtual void makeMove(Card*, Table&, std::vector<Card*>&, std::vector<Card*>&) = 0;
+	void makeMove(Card*, Table&, std::vector<Card*>&, std::vector<Card*>&);
 protected:
 	void play(Table&, Card&, std::vector<Card*>&);
 	void discard(Table&, Card&, std::vector<Card*>&, std::vector<Card*>&);

@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -O -g `pkg-config --cflags --libs gtkmm-2.4`
-OBJS = View.o DeckGUI.o Card.o Command.o Table.o Player.o Computer.o Human.o Status.o Model.o Observer.o Subject.o Controller.o
+OBJS = View.o DeckGUI.o Card.o Command.o Table.o Player.o Status.o Model.o Observer.o Subject.o Controller.o
 EXEC = straights
 
 helloWorld: $(OBJS)
@@ -12,8 +12,6 @@ Card.o: Card.cpp
 Command.o: Command.cpp
 Table.o: Table.cpp
 Player.o: Player.cpp
-Computer.o: Computer.cpp
-Human.o: Human.cpp
 Status.o: Status.cpp
 Model.o: Model.cpp
 Observer.o: Observer.cpp

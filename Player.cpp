@@ -1,8 +1,6 @@
 #include "Player.h"
 #include "Card.h"
 #include "Status.h"
-#include "Human.h"
-#include "Computer.h"
 #include <vector>
 #include <iostream>
 
@@ -12,11 +10,7 @@ void Player::clearCards() {
 }
 
 Player::Player(bool isHuman) {
-	if (isHuman)
-		status_ = new Human();
-	else
-		status_ = new Computer();
-
+	status_ = new Status(); 
 	hand_ = new std::vector<Card*>();
 	discardPile_ = new std::vector<Card*>();
 	score_ = 0;
@@ -44,12 +38,9 @@ void Player::calculateScore() {
 }
 
 void Player::setHand(std::vector<Card*> hand){
-	std::cout << "rer\n";
 	(*hand_).clear();
-	std::cout << "rer\n";
 
 	for (int i = 0; i < 13; i++){
-		std::cout<<i<<std::endl;
 		(*hand_).push_back(hand[i]);}
 }
 
@@ -60,10 +51,7 @@ void Player::makeMove(Card* c, Table& table) {
 	return status_->makeMove(c, table, *hand_, *discardPile_);
 }
 
-void Player::rageQuit() {
-	delete status_;
-	status_ = new Computer();
-}
+
 
 int Player::getDiscardPileSize(){
 	return discardPile_->size();

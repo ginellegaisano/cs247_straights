@@ -18,7 +18,6 @@ public:
 	std::vector<Card*>* getHand();
 	void printDiscards();
 	void clearCards();
-	void rageQuit();
 	void newGame(); 
 private:
 	Player& operator= (Player&);

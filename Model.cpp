@@ -2,29 +2,30 @@
 
 #define CARD_COUNT 52
 
-// Card *cards[52];
 
 using namespace std;
 
+//constructor
 Model::Model() {
 	cardsPlayed = 0;
 	table = new Table();
 }
 
+//desctructor
 Model::~Model() {
-	for (int i = 0; i < 4; i++) delete players[i];
+	for (int i = 0; i < PLAYER_COUNT; i++) delete players[i];
 
 	delete table;
 
-	for (int i = 0; i < 52; i++) delete cards[i];
+	for (int i = 0; i < CARD_COUNT; i++) delete cards[i];
 }
-//shuffles the hards.
+
+//shuffles the hands.
 void Model::shuffle(long seed){
 	cout<<"shuffled\n";
 	int n = CARD_COUNT;
 
 	srand48(seed);
-
 
 	while (n > 1) {
 		int k = (int)(lrand48() % n);
@@ -35,15 +36,15 @@ void Model::shuffle(long seed){
 	}
 }
 
-//initializes deck of cards with cards objects in order 
-void Model::initializeDeck( bool player_[4]) {
+//initializes deck of cards with cards objects in order. intializes the players.
+void Model::initializeDeck( bool player_[PLAYER_COUNT]) {
 
 	std::cout << "Initializing deck...\n";
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < PLAYER_COUNT; i++) {
 		playerStat[i] = player_[i];
 		players[i] = new Player(playerStat[i]);
 	}
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < PLAYER_COUNT; i++){
 		Suit suit;
 		switch (i) {
 		case 0:
@@ -103,7 +104,6 @@ void Model::initializeDeck( bool player_[4]) {
 			}
 		}
 	}
-	//notify();
 }
 
 //deals to hand to player and returns true if player has 7 of spades
@@ -111,20 +111,20 @@ bool Model::deal(int playerNum){
 	vector<Card*> hand;
 	bool firstPlayer = false;
 	cout<<"dealing...\n";
-	for (int j = 0; j < 13; j++){
+	for (int j = 0; j < MAX_HAND_COUNT; j++){
 		Card* curCard = cards[playerNum * 13 + j];
 		string cardName = curCard->getCardName(curCard->getRank(), curCard->getSuit());
-		cout<<cardName<<endl;
 		(hand).push_back(curCard);
 		if (cardName == "7S") firstPlayer = true;
 	}
-	cout<<"we have done some shit."<<endl;
 	players[playerNum]->setHand(hand);
-	//notify();
 
 	return firstPlayer;
 }
-//finished the game.
+
+//returns true if the game is finished (all 52 cards played
+//and there is a player with score of >80)
+//calculates the winner (player with lowest score)
 bool Model::gameDone(){
 	int curScore = 0;
 	if (cardsPlayed == 52) finished = true;
@@ -132,7 +132,7 @@ bool Model::gameDone(){
 	winner.clear();
 	curScore = players[0]->getScore();
 	winner.push_back(1);
-	for (int i = 1; i < 4; i++){
+	for (int i = 1; i < PLAYER_COUNT; i++){
 		players[i]->calculateScore();
 		curScore = players[i]->getScore();
 		if (curScore < players[winner[0]-1]->getScore()){
@@ -147,13 +147,12 @@ bool Model::gameDone(){
 	return finished;
 }
 
-//finished the round
+//returns true if the round has been finished (52 cards played)
 bool Model::finish(){
-	std::cout << "in model finished and " << cardsPlayed << std::endl;
 	bool finished = (cardsPlayed == 52);
 	if (finished){
 		table->clearTable();
-		for (int i =0; i < 4; i ++){
+		for (int i =0; i < PLAYER_COUNT; i ++){
 			players[i]->calculateScore();
 			players[i]->clearCards();
 		}
@@ -163,6 +162,7 @@ bool Model::finish(){
 	return finished;
 }
 
+//returns the vector of winners
 std::vector <int> Model::getWinner(){
 	return winner;
 }
@@ -175,7 +175,7 @@ int Model::newGame(int seed) {
 	table->clearTable();
 
 	int startingPlayer;
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < PLAYER_COUNT; i++){
 		if (deal(i)) startingPlayer = i;
 	}
 	currentPlayer_ = startingPlayer;
@@ -183,8 +183,10 @@ int Model::newGame(int seed) {
 	return startingPlayer;
 }
 
+//resets player hands to 0.
 void Model::resetPlayerScores(){
-	for (int i = 0; i < 4; i++)
+	cardsPlayed = 0;
+	for (int i = 0; i < PLAYER_COUNT; i++)
 		players[i]->newGame();
 }
 
@@ -194,12 +196,11 @@ std::vector <std::pair <int, int> > Model::getHand(){
 	int suit;
 	int rank;
 	std::pair<int, int> cardInt;
-	cout<<"got into model->getHand\n";
+	// cout<<"got into model->getHand\n";
 	std::vector<Card*>* handCard = players[currentPlayer_]->getHand();
 	for (int i = 0; i < (*handCard).size(); i++){
 		suit = (*handCard)[i]->getSuit();
 		rank = (*handCard)[i]->getRank(); 
-		cout<<"handCard is" <<(*handCard)[i]->getCardName((*handCard)[i]->getRank(), (*handCard)[i]->getSuit())<<" correspond with\n suit:  " << suit <<" rank: "<<rank<<endl; 
 		cardInt.first = (int) suit;
 		cardInt.second = (int) rank;
 		ret.push_back(cardInt);
@@ -220,7 +221,7 @@ std::vector <std::pair <int, int> > Model::getTable(){
 	std::vector <std::pair <int, int> > ret;
 	std::pair<int, int> card;
 	std::vector<int> tableVector;
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < PLAYER_COUNT; i++){
 		tableVector = table->getStacks(i);
 		for (int j = 0; j < tableVector.size(); j++){
 			card.first = i;
@@ -260,7 +261,6 @@ std::string Model::getLastPlayedCard() {
 
 void Model::makeMove(int a=-1){
 	cardsPlayed++;
-	cout << "in model make move\n";
 	pair <bool, pair <Rank, Suit> > currentCard;
 	if (getLegalMoves().size()!=0) currentCard.first = 1;
 	else currentCard.first = 0;
@@ -280,8 +280,7 @@ void Model::makeMove(int a=-1){
 
 	lastPlayedCard_ = currentCard;
 	players[currentPlayer_]->makeMove(c,*table);
-	cout << "move";
-	currentPlayer_ = (currentPlayer_ + 1) % 4;
+	currentPlayer_ = (currentPlayer_ + 1) % PLAYER_COUNT;
 	notify();
 }
 

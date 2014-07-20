@@ -1,0 +1,3 @@
+Bonus features:
+
+Shows previous moves of players in dialog box
