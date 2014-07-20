@@ -64,3 +64,11 @@ void Player::rageQuit() {
 	delete status_;
 	status_ = new Computer();
 }
+
+int Player::getDiscardPileSize(){
+	return discardPile_->size();
+}
+
+void Player::newGame(){
+	score_ = 0;
+}

@@ -17,19 +17,24 @@ public:
 	void startNewGame(int seedNum);
 	void rageQuit();
 	void quitGame();
+	void resetPlayerScores();
 	bool playCard(int);
 	void finishRound(); //dont know if i should remove this...
 
 	//get statements. information?
 	int getPlayerNum();
-	std::string getCardName(int);
+	int getDiscard(int);
+	// std::string getCardName(int);
 	std::string getLastPlayedCard();
 	std::vector<int> getLegalMoves();
 	std::vector<std::pair<int, int> > getTable();
 	std::vector<std::pair<int, int> > getHand();
+	std::vector<int> getWinner();
 	bool getPlayerType();
-	int getScore();
+	int getScore(int);
 	bool finished();
+	bool gameDone();
+
 
 private:
 	Model *model_;

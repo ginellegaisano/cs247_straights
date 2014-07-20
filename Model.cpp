@@ -7,6 +7,7 @@
 using namespace std;
 
 Model::Model() {
+	cardsPlayed = 0;
 	table = new Table();
 }
 
@@ -123,23 +124,41 @@ bool Model::deal(int playerNum){
 
 	return firstPlayer;
 }
-
-bool Model::finish(){
-	int curScore;
+//finished the game.
+bool Model::gameDone(){
+	int curScore = 0;
 	if (cardsPlayed == 52) finished = true;
-	winner[0] = players[0]->getScore();
-	for (int i = 0; i < 4; i++){
+	players[0]->calculateScore();
+	winner.clear();
+	curScore = players[0]->getScore();
+	winner.push_back(1);
+	for (int i = 1; i < 4; i++){
+		players[i]->calculateScore();
 		curScore = players[i]->getScore();
-		if (curScore < winner[0]){
-			winner[0] = i;
+		if (curScore < players[winner[0]-1]->getScore()){
+			winner[0] = i+1;
 		}
-		else if (curScore == winner[0]){
-			winner.push_back(i);
+		else if (curScore == players[winner[0]-1]->getScore()){
+			winner.push_back(i+1);
 		}
 
 		if (curScore >= 80) finished = true;
 	}
-	notify();
+	return finished;
+}
+
+//finished the round
+bool Model::finish(){
+	std::cout << "in model finished and " << cardsPlayed << std::endl;
+	bool finished = (cardsPlayed == 52);
+	if (finished){
+		table->clearTable();
+		for (int i =0; i < 4; i ++){
+			players[i]->calculateScore();
+			players[i]->clearCards();
+		}
+		cardsPlayed = 0;
+	}
 
 	return finished;
 }
@@ -148,28 +167,27 @@ std::vector <int> Model::getWinner(){
 	return winner;
 }
 
-//cleans up table
-void Model::finishRound(){
-	table->clearTable();
-	notify();
-
-}
 
 //deals hands and returns the starting player
 int Model::newGame(int seed) {
-	cout << "new game...\n";
 	finished = false;
 	shuffle(seed);
+	table->clearTable();
+
 	int startingPlayer;
 	for (int i = 0; i < 4; i++){
-		cout<<"deal for player: " << i << endl;
 		if (deal(i)) startingPlayer = i;
 	}
 	currentPlayer_ = startingPlayer;
 	notify();
-	cout << "w11111";
 	return startingPlayer;
 }
+
+void Model::resetPlayerScores(){
+	for (int i = 0; i < 4; i++)
+		players[i]->newGame();
+}
+
 
 std::vector <std::pair <int, int> > Model::getHand(){
 	std::vector <std::pair <int, int> > ret;
@@ -178,7 +196,6 @@ std::vector <std::pair <int, int> > Model::getHand(){
 	std::pair<int, int> cardInt;
 	cout<<"got into model->getHand\n";
 	std::vector<Card*>* handCard = players[currentPlayer_]->getHand();
-	cout<<"smugf"<<endl;
 	for (int i = 0; i < (*handCard).size(); i++){
 		suit = (*handCard)[i]->getSuit();
 		rank = (*handCard)[i]->getRank(); 
@@ -216,8 +233,8 @@ std::vector <std::pair <int, int> > Model::getTable(){
 
 
 
-int Model::getScore(){
-	return players[currentPlayer_]->getScore();
+int Model::getScore(int playerNum){
+	return players[playerNum]->getScore();
 }
 
 std::string Model::getCardName(int cardNum){
@@ -229,6 +246,9 @@ std::string Model::getCardName(int cardNum){
 }
 
 std::string Model::getLastPlayedCard() {
+	if (cardsPlayed == 0)
+		return "";
+
 	string ret;
 	if (lastPlayedCard_.first) ret += "Played ";
 	else ret += "Discarded ";
@@ -283,4 +303,8 @@ bool Model::isLegalMoves(int i){
 	std::vector<Card*>* hand = players[currentPlayer_]->getHand();
 	Card*c = (*hand)[i];
 	return table->isLegalCard(*c);
+}
+
+int Model::getDiscard(int playerNum){
+	return players[playerNum]->getDiscardPileSize();
 }

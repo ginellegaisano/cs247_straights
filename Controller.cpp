@@ -49,21 +49,38 @@ void Controller::finishRound(){} //dont know if i should remove this...
 int Controller::getPlayerNum(){
 	return model_->getPlayerNum();
 }
-
+std::vector<int> Controller::getWinner(){
+	return model_->getWinner();
+}
 std::vector<int> Controller::getLegalMoves(){
 	return model_->getLegalMoves();
 }
 bool Controller::getPlayerType(){
 	return model_->getPlayerType();
 }
-
-std::string Controller::getCardName(int cardNum) {
-	return model_->getCardName(cardNum);
+int Controller::getDiscard(int i){
+	return model_->getDiscard(i);
 }
+
+// std::string Controller::getCardName(int cardNum) {
+// 	return model_->getCardName(cardNum);
+// }
 
 std::string Controller::getLastPlayedCard() {
 	return model_->getLastPlayedCard();
 }
 
-int Controller::getScore(){}
-bool Controller::finished(){}
+int Controller::getScore(int playerNum){
+	return model_->getScore(playerNum);
+}
+bool Controller::finished(){
+	return model_->finish();
+}
+
+bool Controller::gameDone(){
+	return model_->gameDone();
+}
+
+void Controller::resetPlayerScores(){
+	model_->resetPlayerScores();
+}

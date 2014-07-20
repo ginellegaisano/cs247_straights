@@ -26,19 +26,18 @@ public:
 
 	void ragequit();
 
-
+	int getDiscard(int);
 	int getPlayerNum();
+	void resetPlayerScores();
 	bool getPlayerType();
 	std::string getLastPlayedCard();
-	int getScore();
+	int getScore(int);
 	bool finish();
 	bool isLegalMoves(int i);
-	
+	bool gameDone();
 	std::string getCardName(int);
 	void makeMove(int);
-
 	int newGame(int seed);
-	void finishRound();
 	void initializeDeck(bool players[4]);
 	//void quit??
 private:

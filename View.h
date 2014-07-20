@@ -31,7 +31,10 @@ class View : public Gtk::Window, public Observer{
 		virtual void onCardButtonClicked(int);
 		virtual void onDialogButtonClicked();
 		virtual void update();
+		virtual void updateDialogBox(string);
 		virtual void setHand(vector<pair<int, int> >);
+		virtual void setHandButtonsStatus(bool);
+		virtual void clearTable();
 		//the pictures
 		DeckGUI deck;
 		Gtk::VBox V;
@@ -72,6 +75,7 @@ class View : public Gtk::Window, public Observer{
 		Gtk::Button ragequit;
 
 		vector<bool> playerStatus;
+		int dialogCounter;
 
 };
 

@@ -10,14 +10,16 @@ class Player {
 public:
 	Player(bool); //
 	virtual ~Player();
+	int getDiscardPileSize();
 	void setHand(std::vector<Card*>);
 	void makeMove(Card*, Table&);
 	int getScore();
-	std::vector<Card*>* getHand();
 	void calculateScore();
+	std::vector<Card*>* getHand();
 	void printDiscards();
 	void clearCards();
 	void rageQuit();
+	void newGame(); 
 private:
 	Player& operator= (Player&);
 	Player(Player&);
